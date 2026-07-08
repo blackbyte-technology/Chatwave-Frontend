@@ -49,7 +49,7 @@ export const useEmbeddedSignup = (onFinish: (code: string, data: any) => void) =
         override_default_response_type: true,
         extras: {
           setup: {},
-          sessionInfoVersion: 2,
+          sessionInfoVersion: 3,
           featureType: "whatsapp_business_app_onboarding",
         },
       }
