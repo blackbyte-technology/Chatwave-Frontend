@@ -3,6 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: false,
+  turbopack: {
+    root: __dirname,
+  },
   env: {
     NEXT_PUBLIC_API_URL: "http://localhost:5000/api",
     NEXT_PUBLIC_API_BASE_URL: "/api",
