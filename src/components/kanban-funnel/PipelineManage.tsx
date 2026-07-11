@@ -422,7 +422,7 @@ const PipelineManage: React.FC<PipelineManageProps> = ({ id }) => {
                         {localStages.map((stage: any, stageIndex: number) => (
                           <Draggable key={stage._id} draggableId={stage._id} index={stageIndex}>
                             {(provided, snapshot) => (
-                              <div {...provided.draggableProps} ref={provided.innerRef} className={cn("w-80 flex flex-col rounded-lg bg-white/70 dark:bg-(--card-color) border border-slate-200/60 dark:border-(--card-border-color) group shadow-sm hover:shadow-md transition-shadow h-full", snapshot.isDragging ? "shadow-2xl ring-2 ring-primary/20 bg-white dark:bg-(--card-color) border-primary/20 scale-[1.02]" : "")}>
+                              <div {...provided.draggableProps} ref={provided.innerRef} className={cn("w-80 flex flex-col rounded-lg bg-white/70 dark:bg-(--card-color) border border-slate-200/60 dark:border-(--card-border-color) group shadow-sm hover:shadow-md transition-shadow h-full", snapshot.isDragging ? "shadow-2xl ring-2 ring-primary/20 bg-white dark:bg-(--card-color) border-primary/20 scale-[1.02]" : "")} style={provided.draggableProps.style as React.CSSProperties}>
                                 <div {...provided.dragHandleProps} className="p-4 flex items-center justify-between rounded-t-lg border-b border-slate-100 dark:border-(--card-border-color) bg-slate-50/30 dark:bg-(--page-body-bg) cursor-grab active:cursor-grabbing" style={{ borderTop: `4px solid ${stage.color}` }}>
                                   <div className="flex items-center gap-2">
                                     <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">{stage.name}</h3>
@@ -473,7 +473,7 @@ const PipelineManage: React.FC<PipelineManageProps> = ({ id }) => {
                                                     snapshot.isDragging ? "shadow-2xl ring-2 ring-primary/20 scale-105 z-[9999] bg-white dark:bg-(--page-body-bg) shadow-primary/10" : ""
                                                   )}
                                                   style={{
-                                                    ...provided.draggableProps.style,
+                                                    ...(provided.draggableProps.style as React.CSSProperties),
                                                     zIndex: snapshot.isDragging ? 9999 : undefined,
                                                   }}
                                                 >
@@ -658,7 +658,7 @@ const PipelineManage: React.FC<PipelineManageProps> = ({ id }) => {
                                     snapshot.isDragging ? "shadow-2xl ring-2 ring-primary/20 scale-105 z-[9999] bg-white dark:bg-slate-900 shadow-primary/10" : ""
                                   )}
                                   style={{
-                                    ...provided.draggableProps.style,
+                                    ...(provided.draggableProps.style as React.CSSProperties),
                                     // When in portal, ensure it stays above everything
                                     zIndex: snapshot.isDragging ? 9999 : undefined,
                                   }}

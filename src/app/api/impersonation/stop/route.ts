@@ -1,13 +1,12 @@
+import { auth } from "@/src/auth";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authoption } from "../../auth/[...nextauth]/authOption";
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function POST() {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = (session as any)?.accessToken;
 
     const response = await fetch(`${BACKEND_API_URL}/impersonation/stop`, {

@@ -35,6 +35,14 @@ export const useEmbeddedSignup = (onFinish: (code: string, data: any) => void) =
   }, [authCode, signupData, onFinish]);
 
   const startSignup = useCallback(() => {
+    // Facebook requires HTTPS — block entirely on HTTP to prevent console errors
+    if (typeof window !== "undefined" && window.location.protocol !== "https:") {
+      console.warn(
+        "[Facebook SDK] FB.login() requires HTTPS. Use HTTPS in production or 'npx next dev --experimental-https' for local dev."
+      );
+      return;
+    }
+
     if (!fbReady || !window.FB) return;
 
     window.FB.login(

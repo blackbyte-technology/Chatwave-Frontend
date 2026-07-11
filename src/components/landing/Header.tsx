@@ -8,7 +8,6 @@ import {
   Bot,
   ChevronDown,
   GitBranch,
-  Instagram,
   Library,
   Menu,
   MessageSquare,
@@ -17,6 +16,7 @@ import {
   WebhookIcon,
   X,
 } from "lucide-react";
+import { Instagram } from "@/src/components/icons/BrandIcons";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

@@ -1,7 +1,7 @@
 import "@xyflow/react/dist/style.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import type { Metadata } from "next";
-import { getServerSession } from "next-auth";
+import { auth } from "@/src/auth";
 import { Geist_Mono, Mona_Sans } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
@@ -16,7 +16,7 @@ import { TooltipProvider } from "../elements/ui/tooltip";
 import RoleGuard from "../shared/RoleGuard";
 import SessionWrapper from "../shared/SessionWrapper";
 import SubscriptionGuard from "../shared/SubscriptionGuard";
-import { authoption } from "./api/auth/[...nextauth]/authOption";
+
 import FacebookSDKProvider from "./FacebookSDKProvider";
 import "./globals.css";
 import I18nProvider from "./I18nProvider";
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const session = await getServerSession(authoption);
+  const session = await auth();
 
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>

@@ -1,13 +1,12 @@
+import { auth } from "@/src/auth";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { authoption } from "@/src/app/api/auth/[...nextauth]/authOption";
-import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string; event_id: string }> }) {
   try {
     const { id: calendarId, event_id } = await params;
     const body = await req.json();
-    const session = await getServerSession(authoption);
+    const session = await auth();
 
     if (!session || !session.accessToken) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
@@ -32,7 +31,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string; event_id: string }> }) {
   try {
     const { id: calendarId, event_id } = await params;
-    const session = await getServerSession(authoption);
+    const session = await auth();
 
     if (!session || !session.accessToken) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });

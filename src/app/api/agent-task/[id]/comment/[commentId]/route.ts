@@ -1,14 +1,13 @@
-import { getServerSession } from "next-auth";
+import { auth } from "@/src/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { PUBLIC_API_URL } from "@/src/constants/route";
-import { authoption } from "@/src/app/api/auth/[...nextauth]/authOption";
 
 export async function PUT(
   request: NextRequest,
   context: { params: Promise<{ id: string; commentId: string }> }
 ) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
     const { id, commentId } = await context.params;
 
@@ -36,7 +35,7 @@ export async function DELETE(
   context: { params: Promise<{ id: string; commentId: string }> }
 ) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
     const { id, commentId } = await context.params;
 

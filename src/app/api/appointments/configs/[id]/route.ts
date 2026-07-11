@@ -1,11 +1,10 @@
+import { auth } from "@/src/auth";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
-import { authoption } from "@/src/app/api/auth/[...nextauth]/authOption";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string;
     const { id } = await params;
 
@@ -25,7 +24,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string;
     const { id } = await params;
     const body = await req.json();
@@ -48,7 +47,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string;
     const { id } = await params;
 

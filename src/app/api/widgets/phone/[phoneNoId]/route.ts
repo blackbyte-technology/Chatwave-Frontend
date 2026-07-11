@@ -1,6 +1,5 @@
-import { getServerSession } from "next-auth";
+import { auth } from "@/src/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authoption } from "../../../auth/[...nextauth]/authOption";
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -10,7 +9,7 @@ export async function GET(
 ) {
   try {
     const { phoneNoId } = await params;
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string;
 
     const response = await fetch(`${BACKEND_API_URL}/widgets/phone/${phoneNoId}`, {

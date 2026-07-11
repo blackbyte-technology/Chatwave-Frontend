@@ -3,13 +3,13 @@
 import {
   Bot,
   GitBranch,
-  Instagram,
   Library,
   MessageSquare,
   PhoneCall,
   Send,
   Webhook as WebhookIcon,
 } from "lucide-react";
+import { Instagram } from "@/src/components/icons/BrandIcons";
 import Link from "next/link";
 import React, { useState } from "react";
 

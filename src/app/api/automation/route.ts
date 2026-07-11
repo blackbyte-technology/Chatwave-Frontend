@@ -1,11 +1,10 @@
+import { auth } from "@/src/auth";
 import { PUBLIC_API_URL } from '@/src/constants/route';
-import { getServerSession } from 'next-auth';
-import { authoption } from '@/src/app/api/auth/[...nextauth]/authOption';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
 
     const searchParams = request.nextUrl.searchParams;
@@ -31,7 +30,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
 
     const body = await request.json();
@@ -59,7 +58,7 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
 
     const body = await request.json();

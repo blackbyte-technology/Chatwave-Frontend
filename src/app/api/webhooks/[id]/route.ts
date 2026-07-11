@@ -1,12 +1,11 @@
-import { getServerSession } from "next-auth";
+import { auth } from "@/src/auth";
 import { NextResponse } from "next/server";
-import { authoption } from "../../auth/[...nextauth]/authOption";
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string;
     const { id } = await params;
 
@@ -33,7 +32,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string;
     const { id } = await params;
     const body = await request.json();
@@ -62,7 +61,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string;
     const { id } = await params;
 

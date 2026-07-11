@@ -1,12 +1,11 @@
-import { getServerSession } from "next-auth";
-import { authoption } from "../auth/[...nextauth]/authOption";
+import { auth } from "@/src/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { PUBLIC_API_URL } from "@/src/constants/route";
 
 /** GET /api/sequences — list sequences */
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
     const queryString = request.nextUrl.searchParams.toString();
 
@@ -28,7 +27,7 @@ export async function GET(request: NextRequest) {
 /** POST /api/sequences — create a sequence */
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
 
     const body = await request.json();

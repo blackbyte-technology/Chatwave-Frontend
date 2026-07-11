@@ -3,7 +3,8 @@
 
 import { Button } from "@/src/elements/ui/button";
 import { cn } from "@/src/lib/utils";
-import { ChevronLeft, ChevronRight, Facebook, Instagram } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Facebook, Instagram } from "@/src/components/icons/BrandIcons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FacebookFeedPreview } from "./layouts/FacebookFeedPreview";

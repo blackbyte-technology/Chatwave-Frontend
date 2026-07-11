@@ -1,6 +1,5 @@
+import { auth } from "@/src/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authoption } from "@/src/app/api/auth/[...nextauth]/authOption";
 import { PUBLIC_API_URL } from "@/src/constants/route";
 
 export async function GET(
@@ -9,7 +8,7 @@ export async function GET(
 ) {
   try {
     const { level, id } = await params;
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
 
     const response = await fetch(`${PUBLIC_API_URL}/facebook-ads/insights/${level}/${id}`, {

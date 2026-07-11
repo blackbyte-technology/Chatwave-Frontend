@@ -4,7 +4,7 @@ import Logo1 from "@/public/assets/logos/logo1.png";
 import { ROUTES } from "@/src/constants";
 import { useAppSelector } from "@/src/redux/hooks";
 import Images from "@/src/shared/Image";
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter } from "@/src/components/icons/BrandIcons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";

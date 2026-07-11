@@ -1,10 +1,9 @@
-import { authoption } from "@/src/app/api/auth/[...nextauth]/authOption";
+import { auth } from "@/src/auth";
 import { PUBLIC_API_URL } from "@/src/constants/route";
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 
 async function getAuthHeaders() {
-  const session = await getServerSession(authoption);
+  const session = await auth();
   const token = session?.accessToken as string | undefined;
   const headers: HeadersInit = {
     "Content-Type": "application/json",

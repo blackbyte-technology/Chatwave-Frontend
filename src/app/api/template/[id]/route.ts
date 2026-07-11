@@ -1,12 +1,11 @@
+import { auth } from "@/src/auth";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PUBLIC_API_URL } from "@/src/constants/route";
-import { getServerSession } from "next-auth";
-import { authoption } from "@/src/app/api/auth/[...nextauth]/authOption";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
     const { id } = await context.params;
 
@@ -32,7 +31,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
     const { id } = await params;
 
@@ -66,7 +65,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
     const { id } = await params;
 

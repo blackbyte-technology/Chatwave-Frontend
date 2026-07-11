@@ -72,7 +72,7 @@ export function DatePicker({ date, onChange, placeholder = "Pick a date", classN
             }
             onChange?.(newDate);
           }}
-          initialFocus
+          autoFocus
           disabled={disabled}
           // react-day-picker v9 time pickers or other props can be added here if needed
         />

@@ -1,12 +1,11 @@
+import { auth } from "@/src/auth";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
-import { authoption } from "../../../../auth/[...nextauth]/authOption";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: accountId } = await params;
-    const session = await getServerSession(authoption);
+    const session = await auth();
 
     if (!session || !session.accessToken) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
@@ -33,7 +32,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   try {
     const { id: accountId } = await params;
     const { summary } = await req.json();
-    const session = await getServerSession(authoption);
+    const session = await auth();
 
     if (!session || !session.accessToken) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });

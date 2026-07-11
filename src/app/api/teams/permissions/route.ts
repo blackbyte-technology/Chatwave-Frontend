@@ -1,11 +1,10 @@
-import { getServerSession } from "next-auth";
-import { authoption } from "../../auth/[...nextauth]/authOption";
+import { auth } from "@/src/auth";
 import { NextRequest, NextResponse } from "next/server";
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
 
     const response = await fetch(`${BACKEND_API_URL}/teams/permissions`, {

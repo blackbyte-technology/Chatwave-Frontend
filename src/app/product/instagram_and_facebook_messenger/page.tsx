@@ -1,7 +1,7 @@
 "use client";
 
 import ComingSoonTemplate from "@/src/components/product/ComingSoonTemplate";
-import { Instagram } from "lucide-react";
+import { Instagram } from "@/src/components/icons/BrandIcons";
 
 const MultiChannelPage = () => {
   return (

@@ -1,12 +1,11 @@
-import { getServerSession } from "next-auth/next";
+import { auth } from "@/src/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authoption } from "../../../../auth/[...nextauth]/authOption";
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const { is_linked } = await req.json();
-    const session = await getServerSession(authoption);
+    const session = await auth();
 
     if (!session || !session.accessToken) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });

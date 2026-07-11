@@ -1,12 +1,11 @@
+import { auth } from "@/src/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authoption } from "../auth/[...nextauth]/authOption";
 
 const BACKEND_API_URL = process.env.BACKEND_API_URL || "http://localhost:5000/api";
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     if (!session) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }

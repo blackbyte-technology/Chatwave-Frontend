@@ -1,13 +1,12 @@
+import { auth } from "@/src/auth";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authoption } from "../../auth/[...nextauth]/authOption";
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string;
 
     const { searchParams } = new URL(request.url);
@@ -35,7 +34,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string;
 
     const { searchParams } = new URL(request.url);

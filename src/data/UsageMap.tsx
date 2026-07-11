@@ -1,4 +1,5 @@
-import { Bot, Calendar, Code2, Columns, Facebook, FileDigit, Form, GitBranch, HatGlasses, Headphones, MessageSquare, MessagesSquare, PhoneCall, Sparkles, Tags, Target, User, UserCheck, Users, Webhook } from "lucide-react";
+import { Bot, Calendar, Code2, Columns, FileDigit, Form, GitBranch, HatGlasses, Headphones, MessageSquare, MessagesSquare, PhoneCall, Sparkles, Tags, Target, User, UserCheck, Users, Webhook } from "lucide-react";
+import { Facebook } from "@/src/components/icons/BrandIcons";
 
 export const USAGE_MAPPING = {
   contacts_used: { label: "contacts_label", icon: User, featureKey: "contacts" },

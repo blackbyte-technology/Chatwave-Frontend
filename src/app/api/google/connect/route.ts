@@ -1,10 +1,9 @@
-import { getServerSession } from "next-auth/next";
+import { auth } from "@/src/auth";
 import { NextResponse } from "next/server";
-import { authoption } from "../../auth/[...nextauth]/authOption";
 
 export async function GET() {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string | undefined;
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/google/connect`, {

@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { Facebook } from "lucide-react";
+import { Facebook } from "@/src/components/icons/BrandIcons";
 
 interface FacebookNotificationPreviewProps {
   ad: any;

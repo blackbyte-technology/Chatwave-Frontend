@@ -1,11 +1,10 @@
+import { auth } from "@/src/auth";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
-import { authoption } from "@/src/app/api/auth/[...nextauth]/authOption";
 
 export async function DELETE(req: NextRequest) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const token = session?.accessToken as string;
     const body = await req.json();
 

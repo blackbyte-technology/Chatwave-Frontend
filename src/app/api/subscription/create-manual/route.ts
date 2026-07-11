@@ -1,12 +1,11 @@
-import { getServerSession } from "next-auth";
+import { auth } from "@/src/auth";
 import { NextResponse } from "next/server";
-import { authoption } from "../../auth/[...nextauth]/authOption";
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authoption);
+    const session = await auth();
     const formData = await req.formData();
     const token = session?.accessToken as string;
 

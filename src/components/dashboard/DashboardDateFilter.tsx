@@ -85,7 +85,7 @@ export function DashboardDateFilter({ onFilterChange }: DashboardDateFilterData)
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0 dark:bg-(--card-color) border-(--input-border-color) dark:border-(--card-border-color) rounded-xl shadow-2xl" align="end">
-            <Calendar initialFocus mode="range" defaultMonth={customRange?.from} selected={customRange} onSelect={handleCustomRangeChange} numberOfMonths={1} />
+            <Calendar autoFocus mode="range" defaultMonth={customRange?.from} selected={customRange} onSelect={handleCustomRangeChange} numberOfMonths={1} />
           </PopoverContent>
         </Popover>
       )}
