@@ -15,11 +15,17 @@ export const useEmbeddedSignup = (onFinish: (code: string, data: any) => void) =
 
       try {
         const payload = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+        console.log("[EmbeddedSignup] Message from Facebook:", payload.type, payload.event);
 
         if (payload.type === "WA_EMBEDDED_SIGNUP" && payload.event === "FINISH") {
+          console.log("[EmbeddedSignup] Got signupData:", payload.data);
           setSignupData(payload.data);
+        } else if (payload.type === "WA_EMBEDDED_SIGNUP" && payload.event === "CANCEL") {
+          console.log("[EmbeddedSignup] User cancelled signup");
         }
-      } catch {}
+      } catch (e) {
+        console.warn("[EmbeddedSignup] Failed to parse message:", e);
+      }
     };
 
     window.addEventListener("message", handler);
@@ -27,7 +33,9 @@ export const useEmbeddedSignup = (onFinish: (code: string, data: any) => void) =
   }, []);
 
   useEffect(() => {
+    console.log("[EmbeddedSignup] State check - authCode:", !!authCode, "signupData:", !!signupData);
     if (authCode && signupData) {
+      console.log("[EmbeddedSignup] Both received! Calling onFinish...");
       onFinish(authCode, signupData);
       setAuthCode(null);
       setSignupData(null);
@@ -43,12 +51,21 @@ export const useEmbeddedSignup = (onFinish: (code: string, data: any) => void) =
       return;
     }
 
-    if (!fbReady || !window.FB) return;
+    if (!fbReady || !window.FB) {
+      console.warn("[EmbeddedSignup] FB SDK not ready. fbReady:", fbReady, "window.FB:", !!window.FB);
+      return;
+    }
+
+    console.log("[EmbeddedSignup] Starting FB.login with config_id:", setting?.configuration_id);
 
     window.FB.login(
       (res: any) => {
+        console.log("[EmbeddedSignup] FB.login response:", res);
         if (res.authResponse?.code) {
+          console.log("[EmbeddedSignup] Got authCode:", res.authResponse.code.substring(0, 20) + "...");
           setAuthCode(res.authResponse.code);
+        } else {
+          console.warn("[EmbeddedSignup] No authResponse.code in FB.login response");
         }
       },
       {
