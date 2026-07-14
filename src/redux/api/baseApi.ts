@@ -1,36 +1,23 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
-import { getSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { setLogout } from "../reducers/authSlice";
 import { setRTL } from "../reducers/layoutSlice";
 import { resetChatState } from "../reducers/messenger/chatSlice";
 import { clearWorkspace } from "../reducers/workspaceSlice";
 import { ROUTES } from "@/src/constants";
+import { RootState } from "../store";
 
 const API_BASE_URL = typeof window === "undefined" ? process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api" : process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 const EXPIRATION_MESSAGES = ["Session expired or logged out", "Token is invalid or expired", "Session expired", "Token expired", "Please log in again", "Invalid token: user not found"];
 
-let cachedSession: Awaited<ReturnType<typeof getSession>> = null;
-let cachedSessionTimestamp = 0;
-const SESSION_CACHE_MS = 30_000; // cache session for 30 seconds
-
-const getCachedSession = async () => {
-  if (typeof window === "undefined") return null;
-  const now = Date.now();
-  if (cachedSession && now - cachedSessionTimestamp < SESSION_CACHE_MS) {
-    return cachedSession;
-  }
-  cachedSession = await getSession();
-  cachedSessionTimestamp = now;
-  return cachedSession;
-};
-
 const baseQuery = fetchBaseQuery({
   baseUrl: API_BASE_URL,
-  prepareHeaders: async (headers) => {
-    const session = await getCachedSession();
-    if (session?.accessToken) {
-      headers.set("Authorization", `Bearer ${session.accessToken}`);
+  prepareHeaders: (headers, { getState }) => {
+    // Get token directly from Redux store — no network call needed!
+    const token = (getState() as RootState).auth.token;
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
     }
     return headers;
   },
@@ -51,8 +38,6 @@ const baseQueryWithLogout: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     const message = data?.error || data?.message || "";
 
     if (isSessionExpired(message)) {
-      cachedSession = null;
-      cachedSessionTimestamp = 0;
       api.dispatch(resetChatState());
       api.dispatch(clearWorkspace());
       api.dispatch(setLogout());
