@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { MENUITEMS } from "@/src/data/SidebarList";
 import { ROUTES } from "@/src/constants";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/elements/ui/tooltip";
+import { SectionFlyoutTrigger } from "./SidebarFlyout";
 
 const SidebarSkeleton = ({ isVisuallyExpanded }: { isVisuallyExpanded: boolean }) => (
   <div className={`p-3 space-y-4 ${!isVisuallyExpanded ? "items-center flex flex-col" : ""}`}>
@@ -166,7 +167,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
     return resolveUrl(url) || "/assets/logos/sidebarLogo.png";
   }, [mounted, theme, isVisuallyExpanded, logo_light_url, logo_dark_url, sidebar_light_logo_url, sidebar_dark_logo_url]);
 
-  const [openSections, setOpenSections] = useState<string[]>(["integrations_sidebar_title", "auto_responses_sidebar_title", "my_subscription_sidebar_title", "marketing_sidebar_title"]);
+  const [openSections, setOpenSections] = useState<string[]>([]);
 
   const toggleSection = (section: string) => {
     setOpenSections((prev) => (prev.includes(section) ? prev.filter((s) => s !== section) : [...prev, section]));
@@ -227,7 +228,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
     return (
       <Tooltip key={item.label} open={clickedItemId === item.label ? true : undefined}>
         <TooltipTrigger asChild>{menuItemContent}</TooltipTrigger>
-        <TooltipContent side="right" className="ml-2 z-[200] bg-primary text-white border-primary">
+        <TooltipContent side="right" sideOffset={8} className="z-[9999] px-3 py-2 text-sm font-medium bg-white dark:bg-[#1a2236] text-slate-700 dark:text-white border border-gray-200 dark:border-white/10 shadow-lg rounded-lg">
           {label}
         </TooltipContent>
       </Tooltip>
@@ -283,10 +284,13 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
                       </div>
                     </>
                   ) : (
-                    <>
-                      <div className="my-2 border-t border-gray-100 dark:border-gray-800" />
-                      <div className="space-y-1">{sectionItems.sort((a, b) => a.order - b.order).map(renderMenuItem)}</div>
-                    </>
+                    <SectionFlyoutTrigger
+                      sectionItems={sectionItems.sort((a, b) => a.order - b.order)}
+                      sectionTitle={section}
+                      isPathActive={isPathActive}
+                      onItemClick={handleItemClick}
+                      t={t}
+                    />
                   )}
                 </div>
               );
