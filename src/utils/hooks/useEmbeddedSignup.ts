@@ -17,10 +17,10 @@ export const useEmbeddedSignup = (onFinish: (code: string, data: any) => void) =
         const payload = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
         console.log("[EmbeddedSignup] Message from Facebook:", payload.type, payload.event);
 
-        if (payload.type === "WA_EMBEDDED_SIGNUP" && payload.event === "FINISH") {
+        if (payload.type === "WA_EMBEDDED_SIGNUP" && (payload.event === "FINISH" || payload.event === "FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING")) {
           console.log("[EmbeddedSignup] Got signupData:", payload.data);
           setSignupData(payload.data);
-        } else if (payload.type === "WA_EMBEDDED_SIGNUP" && payload.event === "CANCEL") {
+        } else if (payload.type === "WA_EMBEDDED_SIGNUP" && (payload.event === "CANCEL" || payload.event === "CANCEL_WHATSAPP_BUSINESS_APP_ONBOARDING")) {
           console.log("[EmbeddedSignup] User cancelled signup");
         }
       } catch (e) {
