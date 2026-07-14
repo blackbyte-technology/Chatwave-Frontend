@@ -10,9 +10,19 @@ const API_BASE_URL = typeof window === "undefined" ? process.env.NEXT_PUBLIC_API
 
 const EXPIRATION_MESSAGES = ["Session expired or logged out", "Token is invalid or expired", "Session expired", "Token expired", "Please log in again", "Invalid token: user not found"];
 
+let cachedSession: Awaited<ReturnType<typeof getSession>> = null;
+let cachedSessionTimestamp = 0;
+const SESSION_CACHE_MS = 30_000; // cache session for 30 seconds
+
 const getCachedSession = async () => {
   if (typeof window === "undefined") return null;
-  return getSession();
+  const now = Date.now();
+  if (cachedSession && now - cachedSessionTimestamp < SESSION_CACHE_MS) {
+    return cachedSession;
+  }
+  cachedSession = await getSession();
+  cachedSessionTimestamp = now;
+  return cachedSession;
 };
 
 const baseQuery = fetchBaseQuery({
@@ -41,6 +51,8 @@ const baseQueryWithLogout: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     const message = data?.error || data?.message || "";
 
     if (isSessionExpired(message)) {
+      cachedSession = null;
+      cachedSessionTimestamp = 0;
       api.dispatch(resetChatState());
       api.dispatch(clearWorkspace());
       api.dispatch(setLogout());
