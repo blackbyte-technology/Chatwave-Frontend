@@ -38,9 +38,10 @@ jobs:
 
       - name: Package standalone build
         run: |
-          tar -czf /tmp/frontend-deploy.tar.gz -C .next/standalone .
-          tar -czf /tmp/frontend-static.tar.gz -C .next static
-          tar -czf /tmp/frontend-public.tar.gz -C public .
+          mkdir -p deploy-artifacts
+          tar -czf deploy-artifacts/frontend-deploy.tar.gz -C .next/standalone .
+          tar -czf deploy-artifacts/frontend-static.tar.gz -C .next static
+          tar -czf deploy-artifacts/frontend-public.tar.gz -C public .
 
       - name: Upload to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -48,9 +49,9 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "/tmp/frontend-deploy.tar.gz,/tmp/frontend-static.tar.gz,/tmp/frontend-public.tar.gz"
-          target: /tmp
-          strip_components: 1
+          source: "deploy-artifacts/*"
+          target: /tmp/frontend-upload
+          overwrite: true
 
       - name: Deploy & Restart
         uses: appleboy/ssh-action@v1.2.2
@@ -68,10 +69,10 @@ jobs:
 
             # Clean and extract
             find . -maxdepth 1 ! -name '.env' ! -name '.' -exec rm -rf {} +
-            tar -xzf /tmp/frontend-deploy.tar.gz
+            tar -xzf /tmp/frontend-upload/deploy-artifacts/frontend-deploy.tar.gz
             mkdir -p .next public
-            tar -xzf /tmp/frontend-static.tar.gz -C .next/
-            tar -xzf /tmp/frontend-public.tar.gz -C public/
+            tar -xzf /tmp/frontend-upload/deploy-artifacts/frontend-static.tar.gz -C .next/
+            tar -xzf /tmp/frontend-upload/deploy-artifacts/frontend-public.tar.gz -C public/
 
             # Handle nested dir from standalone
             if [ -d "Chatwave-Frontend" ]; then
@@ -83,7 +84,7 @@ jobs:
             cp /tmp/frontend-env-backup .env 2>/dev/null || true
 
             # Cleanup
-            rm -f /tmp/frontend-deploy.tar.gz /tmp/frontend-static.tar.gz /tmp/frontend-public.tar.gz /tmp/frontend-env-backup
+            rm -rf /tmp/frontend-upload /tmp/frontend-env-backup
 
             echo ">>> Restarting frontend..."
             pm2 restart chatwave-frontend --update-env
