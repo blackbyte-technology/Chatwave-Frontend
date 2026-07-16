@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ROUTES } from "@/src/constants";
 import type { NextAuthConfig } from "next-auth";
+import { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
@@ -54,7 +55,7 @@ export default {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Missing credentials");
+          return null;
         }
 
         try {
@@ -73,7 +74,9 @@ export default {
           const data = await res.json();
 
           if (!res.ok) {
-            throw new Error(data?.message || "Invalid credentials");
+            const error = new CredentialsSignin(data?.message || "Invalid credentials");
+            error.code = data?.message || "Invalid credentials";
+            throw error;
           }
 
           if (!data.user || !data.token) {
@@ -89,8 +92,11 @@ export default {
             accessToken: data.token,
           };
         } catch (error) {
+          if (error instanceof CredentialsSignin) throw error;
           console.error("Authorization error:", error);
-          throw new Error(`${error}`);
+          const signInError = new CredentialsSignin("Authentication failed");
+          signInError.code = error instanceof Error ? error.message : "Authentication failed";
+          throw signInError;
         }
       },
     }),
@@ -102,7 +108,7 @@ export default {
       },
       async authorize(credentials) {
         if (!credentials?.token) {
-          throw new Error("Missing token");
+          return null;
         }
 
         try {
@@ -117,7 +123,9 @@ export default {
           const data = await res.json();
 
           if (!res.ok || !data.success) {
-            throw new Error(data?.message || "Invalid impersonation token");
+            const error = new CredentialsSignin(data?.message || "Invalid impersonation token");
+            error.code = data?.message || "Invalid impersonation token";
+            throw error;
           }
 
           const profileRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, {
@@ -130,7 +138,9 @@ export default {
           const profileData = await profileRes.json();
 
           if (!profileRes.ok || !profileData.user) {
-            throw new Error("Failed to fetch profiles for impersonated user");
+            const error = new CredentialsSignin("Failed to fetch profiles for impersonated user");
+            error.code = "ImpersonationFailed";
+            throw error;
           }
 
           return {
@@ -142,19 +152,25 @@ export default {
             isImpersonated: true,
           };
         } catch (error) {
+          if (error instanceof CredentialsSignin) throw error;
           console.error("Impersonation authorization error:", error);
-          throw new Error(`${error}`);
+          const signInError = new CredentialsSignin("Impersonation failed");
+          signInError.code = error instanceof Error ? error.message : "Impersonation failed";
+          throw signInError;
         }
       },
     }),
-    Github({
+    // Only include OAuth providers when valid credentials are configured
+    ...(process.env.GITHUB_ID && process.env.GITHUB_SECRET && 
+        !process.env.GITHUB_ID.startsWith("your-") ? [Github({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
-    }),
-    Google({
+    })] : []),
+    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && 
+        !process.env.GOOGLE_CLIENT_ID.startsWith("your-") ? [Google({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    }),
+    })] : []),
   ],
   callbacks: {
     async jwt({ token, user }) {
