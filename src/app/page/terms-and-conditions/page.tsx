@@ -96,7 +96,7 @@ export default function TermsPage() {
 
         <SectionTitle>11. Privacy</SectionTitle>
         <Paragraph>
-          Use of ChatWave is also governed by our <Link href="/privacy-policy" className="text-primary font-semibold hover:underline">Privacy Policy</Link>.
+          Use of ChatWave is also governed by our <Link href="/page/privacy-policy" className="text-primary font-semibold hover:underline">Privacy Policy</Link>.
         </Paragraph>
 
         <SectionTitle>12. Changes to Terms</SectionTitle>
@@ -119,8 +119,8 @@ export default function TermsPage() {
         <div className="max-w-4xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-slate-500 dark:text-gray-500">&copy; {new Date().getFullYear()} BlackByte Technology. All rights reserved.</p>
           <div className="flex items-center gap-6 text-sm">
-            <Link href="/privacy-policy" className="text-slate-500 hover:text-primary transition-colors">Privacy Policy</Link>
-            <Link href="/data-deletion" className="text-slate-500 hover:text-primary transition-colors">Data Deletion</Link>
+            <Link href="/page/privacy-policy" className="text-slate-500 hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link href="/page/data-deletion" className="text-slate-500 hover:text-primary transition-colors">Data Deletion</Link>
           </div>
         </div>
       </footer>

@@ -149,8 +149,8 @@ export default function DataDeletionPage() {
         <div className="max-w-4xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-slate-500 dark:text-gray-500">&copy; {new Date().getFullYear()} BlackByte Technology. All rights reserved.</p>
           <div className="flex items-center gap-6 text-sm">
-            <Link href="/privacy-policy" className="text-slate-500 hover:text-primary transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="text-slate-500 hover:text-primary transition-colors">Terms</Link>
+            <Link href="/page/privacy-policy" className="text-slate-500 hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link href="/page/terms-and-conditions" className="text-slate-500 hover:text-primary transition-colors">Terms</Link>
           </div>
         </div>
       </footer>

@@ -26,7 +26,7 @@ const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }) => {
 
   const isSubscribed = userSettings?.data?.is_subscribed;
   const isSubscriptionPage = pathname === ROUTES.BillingPlans || pathname === ROUTES.Landing || pathname === ROUTES.Workspace;
-  const isPublicRoute = pathname?.startsWith("/auth");
+  const isPublicRoute = pathname?.startsWith("/auth") || pathname?.startsWith("/page/");
 
   const showModal = !isLoading && userSettings?.data && !isSubscribed && !isSubscriptionPage && !isPublicRoute;
 
