@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { COUNTRIES } from "@/src/data/Countries";
 import { CountrySelect } from "../shared/CountrySelect";
 import { DynamicLogo } from "./common/DynamicLogo";
+import { PartnerPromotionPanel } from "./common/PartnerPromotionPanel";
 
 export const RegisterPage = () => {
   const { t } = useTranslation();
@@ -120,61 +121,70 @@ export const RegisterPage = () => {
         <div className="absolute bottom-20 -right-20 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl">
-        <div className="grid lg:grid-cols-5 gap-0 items-stretch">
-          <div className="hidden lg:flex flex-col justify-between p-10 bg-linear-to-br from-slate-900 via-slate-800 to-emerald-900 rounded-l-3xl relative overflow-hidden lg:col-span-2">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full -mr-32 -mt-32"></div>
-            <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/5 rounded-full -ml-40 -mb-40"></div>
-            <div className="absolute top-1/3 right-8 w-1 h-40 bg-emerald-500/20 rotate-12"></div>
-            <div className="absolute bottom-1/3 left-8 w-1 h-32 bg-emerald-500/20 -rotate-12"></div>
+      <div className={`relative z-10 w-full ${agentId ? "max-w-6xl" : "max-w-7xl"}`}>
+        <div className={`grid ${agentId ? "lg:grid-cols-[50fr_50fr]" : "lg:grid-cols-5"} gap-0 items-stretch`}>
 
-            <div className="relative z-10 space-y-10">
-              <div className="flex items-center gap-3">
-                <DynamicLogo />
-              </div>
+          {/* ── Left Panel: Conditional ── */}
+          {agentId ? (
+            /* Partner flow: Premium InsuranceDesk × ChatWave panel */
+            <PartnerPromotionPanel />
+          ) : (
+            /* Normal flow: Original promotional panel */
+            <div className="hidden lg:flex flex-col justify-between p-10 bg-linear-to-br from-slate-900 via-slate-800 to-emerald-900 rounded-l-3xl relative overflow-hidden lg:col-span-2">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full -mr-32 -mt-32"></div>
+              <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/5 rounded-full -ml-40 -mb-40"></div>
+              <div className="absolute top-1/3 right-8 w-1 h-40 bg-emerald-500/20 rotate-12"></div>
+              <div className="absolute bottom-1/3 left-8 w-1 h-32 bg-emerald-500/20 -rotate-12"></div>
 
-              <div>
-                <div className="inline-flex items-center gap-2 bg-emerald-500/20 px-4 py-2 rounded-full mb-4">
-                  <Sparkles className="w-4 h-4 text-emerald-300" />
-                  <span className="text-emerald-200 text-sm font-medium">{t("start_free_trial")}</span>
+              <div className="relative z-10 space-y-10">
+                <div className="flex items-center gap-3">
+                  <DynamicLogo />
                 </div>
-                <h2 className="text-3xl text-white leading-tight mb-4">
-                  {t("join_businesses_header")}
-                  <br />
-                  <span className="text-emerald-300">{t("growing_with_us")}</span>
-                </h2>
-                <p className="text-slate-300 text-base">{t("register_description_long")}</p>
-              </div>
 
-              <div className="space-y-3">
-                {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-center gap-3 text-slate-200">
-                    <div className="w-6 h-6 bg-emerald-500/20 rounded-full flex items-center justify-center shrink-0">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                    </div>
-                    <span>{benefit}</span>
+                <div>
+                  <div className="inline-flex items-center gap-2 bg-emerald-500/20 px-4 py-2 rounded-full mb-4">
+                    <Sparkles className="w-4 h-4 text-emerald-300" />
+                    <span className="text-emerald-200 text-sm font-medium">{t("start_free_trial")}</span>
                   </div>
-                ))}
+                  <h2 className="text-3xl text-white leading-tight mb-4">
+                    {t("join_businesses_header")}
+                    <br />
+                    <span className="text-emerald-300">{t("growing_with_us")}</span>
+                  </h2>
+                  <p className="text-slate-300 text-base">{t("register_description_long")}</p>
+                </div>
+
+                <div className="space-y-3">
+                  {benefits.map((benefit, index) => (
+                    <div key={index} className="flex items-center gap-3 text-slate-200">
+                      <div className="w-6 h-6 bg-emerald-500/20 rounded-full flex items-center justify-center shrink-0">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      </div>
+                      <span>{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="relative z-10 grid grid-cols-3 gap-4 pt-8 border-t border-white/10">
+                <div>
+                  <p className="text-3xl text-white font-bold">99.9%</p>
+                  <p className="text-slate-400 text-sm">{t("uptime_label")}</p>
+                </div>
+                <div>
+                  <p className="text-3xl text-white font-bold">10K+</p>
+                  <p className="text-slate-400 text-sm">{t("users_label")}</p>
+                </div>
+                <div>
+                  <p className="text-3xl text-white font-bold">24/7</p>
+                  <p className="text-slate-400 text-sm">{t("support_label")}</p>
+                </div>
               </div>
             </div>
+          )}
 
-            <div className="relative z-10 grid grid-cols-3 gap-4 pt-8 border-t border-white/10">
-              <div>
-                <p className="text-3xl text-white font-bold">99.9%</p>
-                <p className="text-slate-400 text-sm">{t("uptime_label")}</p>
-              </div>
-              <div>
-                <p className="text-3xl text-white font-bold">10K+</p>
-                <p className="text-slate-400 text-sm">{t("users_label")}</p>
-              </div>
-              <div>
-                <p className="text-3xl text-white font-bold">24/7</p>
-                <p className="text-slate-400 text-sm">{t("support_label")}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white lg:rounded-r-3xl shadow-2xl p-8 lg:p-10 flex flex-col justify-center relative lg:col-span-3 min-h-200">
+          {/* ── Right Panel: Registration Form (UNCHANGED) ── */}
+          <div className={`bg-white lg:rounded-r-3xl shadow-2xl p-6 lg:p-8 flex flex-col justify-center relative ${!agentId ? "lg:col-span-3 min-h-200" : ""}`}>
             <div className="absolute top-0 right-0 w-40 h-40 bg-linear-to-br from-emerald-100 to-blue-100 opacity-40 rounded-bl-[100px]"></div>
 
             <div className="relative z-10 max-w-2xl mx-auto w-full">

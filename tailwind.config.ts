@@ -135,6 +135,42 @@ const config: Config = {
     },
 
     extend: {
+      keyframes: {
+        'float': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        'float-delayed': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+        'pulse-glow': {
+          '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+          '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+        },
+        'slide-up': {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'particle': {
+          '0%': { transform: 'translateY(0) translateX(0)', opacity: '0' },
+          '10%': { opacity: '1' },
+          '90%': { opacity: '1' },
+          '100%': { transform: 'translateY(-100px) translateX(20px)', opacity: '0' },
+        },
+        'dash-flow': {
+          '0%': { strokeDashoffset: '20' },
+          '100%': { strokeDashoffset: '0' },
+        },
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'float-delayed': 'float-delayed 5s ease-in-out 1s infinite',
+        'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+        'slide-up': 'slide-up 0.5s ease-out forwards',
+        'particle': 'particle 8s ease-in-out infinite',
+        'dash-flow': 'dash-flow 2s linear infinite',
+      },
       colors: {
         primary: "var(--primary) ",
         secondary: "var(--text-light-secondary)",
