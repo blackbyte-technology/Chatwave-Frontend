@@ -2,7 +2,7 @@ import PaymentTransactionList from "@/src/components/paymentGateway/PaymentTrans
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Payment Transactions | Wapi",
+  title: "Payment Transactions | ChatWave",
 };
 
 export default function PaymentTransactionsPage() {
