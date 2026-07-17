@@ -15,7 +15,7 @@ const resolveUrl = (url?: string): string => {
   return url.startsWith("http") ? url : `${API_URL}${url}`;
 };
 
-const DEFAULT_FAVICON = "/assets/logos/sidebarLogo.png";
+const DEFAULT_FAVICON = "/assets/logos/favicon.png";
 
 function applyFavicon(href: string) {
   if (typeof window === "undefined" || !href) return;
