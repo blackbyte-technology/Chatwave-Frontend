@@ -15,6 +15,9 @@ const WebhookConfiguration = () => {
   const { t } = useTranslation();
   const { setting } = useAppSelector((state) => state.setting);
 
+  const rawWebhookUrl = `${ImageBaseUrl ?? ""}${setting?.whatsapp_webhook_url || ""}`;
+  const webhookUrl = rawWebhookUrl.replace(/([^:])\/+/g, "$1/");
+
   const copyToClipboard = (text: string, title: string) => {
     navigator.clipboard.writeText(text);
     toast.success(t("copied_success", { title }));
@@ -32,8 +35,8 @@ const WebhookConfiguration = () => {
           <div className="space-y-2">
             <Label className="text-sm font-semibold text-gray-700 dark:text-gray-400">{t("webhook_url")}</Label>
             <div className="flex gap-2">
-              <Input readOnly value={`${ImageBaseUrl ?? ""}${setting?.whatsapp_webhook_url || ""}`} className="bg-gray-50/50 border-gray-200 text-gray-600 dark:border-(--card-border-color) h-11 focus-visible:outline-none focus-visible:ring-0" />
-              <Button variant="outline" size="icon" className="shrink-0 h-11 w-11 border-gray-200 text-gray-400 hover:text-gray-900" onClick={() => copyToClipboard(`${ImageBaseUrl ?? ""}${setting?.whatsapp_webhook_url || ""}`, t("webhook_url"))}>
+              <Input readOnly value={webhookUrl} className="bg-gray-50/50 border-gray-200 text-gray-600 dark:border-(--card-border-color) h-11 focus-visible:outline-none focus-visible:ring-0" />
+              <Button variant="outline" size="icon" className="shrink-0 h-11 w-11 border-gray-200 text-gray-400 hover:text-gray-900" onClick={() => copyToClipboard(webhookUrl, t("webhook_url"))}>
                 <Copy size={18} />
               </Button>
             </div>
