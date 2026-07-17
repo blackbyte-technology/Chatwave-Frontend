@@ -1,6 +1,6 @@
 "use client";
 
-import Logo1 from "@/public/assets/logos/logo1.png";
+import Logo2 from "@/public/assets/logos/logo2.png";
 import { ROUTES } from "@/src/constants";
 import { useAppSelector } from "@/src/redux/hooks";
 import Images from "@/src/shared/Image";
@@ -23,7 +23,7 @@ const Footer: React.FC<FooterProps> = ({ data }) => {
 
   const socialLinks = data.social_links && data.social_links[0] ? data.social_links[0] : null;
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
-  const { app_name, logo_dark_url } = useAppSelector((state) => state.setting);
+  const { app_name, logo_light_url, logo_dark_url } = useAppSelector((state) => state.setting);
 
   const scrollToSection = (id: string) => {
     const mapping: Record<string, string> = {
@@ -57,9 +57,9 @@ const Footer: React.FC<FooterProps> = ({ data }) => {
   return (
     <footer className="footer rounded-t-lg px-6 md:px-12 lg:px-[calc(20px+(243-20)*((100vw-320px)/(1920-320)))] pt-12 pb-8 text-white bg-landing-theme-dark">
       <div className="flex flex-col md:flex-row justify-between items-center gap-[calc(16px+(32-16)*((100vw-320px)/(1920-320)))] pb-8 border-b border-white/10">
-        <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-3">
-            <Images src={logo_dark_url || Logo1} alt={`${app_name || "chatwave"} logo`} className="h-7.75 object-contain" width={100} height={100} />
+        <div className="flex flex-col gap-6 items-start w-full min-[500px]:w-1/2 min-[900px]:w-auto min-[900px]:max-w-[320px]">
+          <Link href="/" className="inline-block transition-transform hover:scale-[1.02]">
+            <Images src={logo_light_url || Logo2} alt={`${app_name || "chatwave"} logo`} className="h-10 object-contain" width={160} height={50} />
           </Link>
         </div>
 

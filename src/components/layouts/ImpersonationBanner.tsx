@@ -11,7 +11,7 @@ export default function ImpersonationBanner() {
   const [stopImpersonation, { isLoading }] = useStopImpersonationMutation();
 
   const isImpersonated = session?.isImpersonated;
-  const adminUrl = process.env.NEXT_PUBLIC_WAPI_ADMIN_URL || "http://localhost:3001";
+  const adminUrl = process.env.NEXT_PUBLIC_CHATWAVE_ADMIN_URL || "http://localhost:3001";
 
   if (!isImpersonated) return null;
 

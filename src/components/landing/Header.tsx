@@ -1,6 +1,6 @@
 "use client";
 
-import Logo1 from "@/public/assets/logos/logo1.png";
+import Logo2 from "@/public/assets/logos/logo2.png";
 import { ROUTES } from "@/src/constants";
 import { Button } from "@/src/elements/ui/button";
 import { useAppSelector } from "@/src/redux/hooks";
@@ -76,7 +76,7 @@ const Header = ({ isColor = false }: { isColor?: boolean }) => {
   const [isMobileProductOpen, setIsMobileProductOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("home");
   const { isAuthenticated } = useAppSelector((state) => state.auth);
-  const { app_name, logo_dark_url } = useAppSelector((state) => state.setting);
+  const { app_name, logo_light_url } = useAppSelector((state) => state.setting);
 
   const scrollToSection = (id: string) => {
     const isLandingPage = pathname === "/" || pathname === ROUTES.Landing;
@@ -149,12 +149,12 @@ const Header = ({ isColor = false }: { isColor?: boolean }) => {
       >
         <Link href="/" className="flex items-center gap-2 shrink-0">
           <Images
-            src={logo_dark_url || Logo1}
+            src={logo_light_url || Logo2}
             alt={`${app_name || "chatwave"} logo`}
-            width={100}
-            height={40}
+            width={160}
+            height={50}
             unoptimized
-            className="h-7.75 object-contain"
+            className="h-10 object-contain"
           />
         </Link>
 
@@ -247,12 +247,12 @@ const Header = ({ isColor = false }: { isColor?: boolean }) => {
           <div className="flex items-center justify-between px-5 pt-5 pb-6 border-b border-white/10">
             <Link href="/" onClick={() => setIsMenuOpen(false)}>
               <Images
-                src={logo_dark_url || Logo1}
+                src={logo_light_url || Logo2}
                 alt={`${app_name || "chatwave"} logo`}
-                width={90}
-                height={34}
+                width={130}
+                height={40}
                 unoptimized
-                className="h-7.75 object-contain"
+                className="h-8 object-contain"
               />
             </Link>
             <button

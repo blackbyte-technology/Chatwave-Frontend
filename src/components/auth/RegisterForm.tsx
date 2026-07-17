@@ -68,7 +68,7 @@ export const RegisterPage = () => {
 
         if (response.success) {
           toast.success(t("registration_success"));
-          localStorage.setItem("wapi_new_registration", btoa(values.email));
+          localStorage.setItem("chatwave_new_registration", btoa(values.email));
           router.push(ROUTES.Login);
           dispatch(setAuthRedirectField(values.email));
         }

@@ -37,7 +37,7 @@ const Dashboard = () => {
   const { user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    const isNewRegistration = localStorage.getItem("wapi_new_registration");
+    const isNewRegistration = localStorage.getItem("chatwave_new_registration");
     if (isNewRegistration && btoa(user?.email || "") === isNewRegistration) {
       confetti({
         particleCount: 200,
@@ -46,7 +46,7 @@ const Dashboard = () => {
         zIndex: 9999,
         colors: ['var(--indigo-500)', 'var(--violet-500)', 'var(--pink-500)', 'var(--warning-amber)', 'var(--primary)'],
       });
-      localStorage.removeItem("wapi_new_registration");
+      localStorage.removeItem("chatwave_new_registration");
     }
   }, [user]);
 
