@@ -75,9 +75,9 @@ const PricingPlan: React.FC<PricingPlanProps> = ({ data }) => {
 
             <div className="flex items-center gap-4 mt-4 [@media(max-width:1024px)]:justify-center">
               <div className="flex -space-x-3 transition-all duration-300">
-                {[...Array(5)].map((i, index) => (
+                {[...Array(5)].map((_, index) => (
                   <div key={index} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-gray-100 shadow-sm hover:scale-110 hover:z-10 transition-transform">
-                    <Image src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="user" className="w-full h-full object-cover" width={100} height={100} unoptimized />
+                    <Image src={`https://i.pravatar.cc/100?img=${index + 10}`} alt="user" className="w-full h-full object-cover" width={100} height={100} unoptimized />
                   </div>
                 ))}
               </div>
