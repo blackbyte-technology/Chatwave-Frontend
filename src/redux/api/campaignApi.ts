@@ -1,6 +1,7 @@
 import { baseApi } from "./baseApi";
 
 export const campaignApi = baseApi.enhanceEndpoints({ addTagTypes: ["Campaign"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getCampaigns: builder.query({
       query: (params) => ({

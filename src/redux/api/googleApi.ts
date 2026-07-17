@@ -14,6 +14,7 @@ import {
 } from "../../types/google";
 
 export const googleApi = baseApi.enhanceEndpoints({ addTagTypes: ["GoogleAccounts", "GoogleCalendars", "GoogleEvents", "GoogleSheets", "GoogleSheetsData"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     connectGoogle: builder.query<GoogleConnectResponse, void>({
       query: () => "/google/connect",

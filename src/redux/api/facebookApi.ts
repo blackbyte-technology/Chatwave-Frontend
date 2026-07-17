@@ -3,6 +3,7 @@ import { ApiResponse } from "@/src/types/shared";
 import { baseApi } from "./baseApi";
 
 export const facebookApi = baseApi.enhanceEndpoints({ addTagTypes: ["FacebookPage", "FacebookAdAccount", "FacebookAdCampaign", "FacebookAdSet", "FacebookAd"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getFacebookPages: builder.query<ApiResponse, { page?: number; limit?: number; search?: string; sortBy?: string; sortOrder?: string } | void>({
       query: (params) => ({

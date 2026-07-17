@@ -1,6 +1,7 @@
 import { baseApi } from "./baseApi";
 
 export const contactApi = baseApi.enhanceEndpoints({ addTagTypes: ["Contact"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getContact: builder.query({
       query: (params) => {

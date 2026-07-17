@@ -2,6 +2,7 @@ import { ImportJobResponse, ImportJobsListResponse } from "@/src/types/import";
 import { baseApi } from "./baseApi";
 
 export const importJobApi = baseApi.enhanceEndpoints({ addTagTypes: ["ImportJobs"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getImportJobs: builder.query<ImportJobsListResponse, { page?: number; limit?: number; search?: string; sort_by?: string; sort_order?: string; status?: string }>({
       query: (params) => ({

@@ -103,22 +103,8 @@ export const LoginPage = () => {
       storage.removeItem(STORAGE_KEYS.REMEMBER_ROLE);
     }
 
-    try {
-      const workspacesRes = await getWorkspaces().unwrap();
-      const workspaces = workspacesRes.data || [];
-
-      if (workspaces.length === 1) {
-        dispatch(setWorkspace(workspaces[0]));
-        router.push(`${ROUTES.Dashboard}?login_success=true`);
-      } else {
-        router.push(`${ROUTES.Workspace}?login_success=true`);
-      }
-    } catch (error) {
-      console.error("Failed to fetch workspaces after login:", error);
-      router.push(`${ROUTES.Workspace}?login_success=true`);
-    } finally {
-      setIsLoading(false);
-    }
+    router.push(`${ROUTES.Workspace}?login_success=true`);
+    setIsLoading(false);
   };
 
   const onNavigateToRegister = () => {
@@ -289,7 +275,7 @@ export const LoginPage = () => {
                 )}
               </form>
 
-              {allow_user_signup && (
+              {true && (
                 <div className="mt-8 text-center">
                   <p className="text-slate-600">
                     {t("new_to_platform")}{" "}

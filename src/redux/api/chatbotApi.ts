@@ -2,6 +2,7 @@ import { ChatbotResponse, ChatbotsResponse, ChatbotCreatePayload, ChatbotTrainPa
 import { baseApi } from "./baseApi";
 
 export const chatbotApi = baseApi.enhanceEndpoints({ addTagTypes: ["Chatbot"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getChatbots: builder.query<ChatbotsResponse, { waba_id: string }>({
       query: (params) => ({

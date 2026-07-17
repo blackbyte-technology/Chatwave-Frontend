@@ -27,7 +27,8 @@ export interface QuickReplyResponse {
 export const quickReplyApi = baseApi
   .enhanceEndpoints({ addTagTypes: ["QuickReply"] })
   .injectEndpoints({
-    endpoints: (builder) => ({
+  overrideExisting: true,
+  endpoints: (builder) => ({
       getQuickReplies: builder.query<QuickRepliesResponse, { search?: string; page?: number; limit?: number; sort?: string; order?: string }>({
         query: (params) => {
           const qs = new URLSearchParams();

@@ -15,20 +15,21 @@ export type GenericResponse = GenericApiResponse;
 export const apiKeyApi = baseApi
   .enhanceEndpoints({ addTagTypes: ["ApiKeys"] })
   .injectEndpoints({
-    endpoints: (builder) => ({
+  overrideExisting: true,
+  endpoints: (builder) => ({
       getApiKeys: builder.query<
         ApiKeyListResponse,
         { page?: number; limit?: number }
       >({
         query: (params) => ({
-          url: "/developer/api-keys",
+          url: "/api-keys",
           params,
         }),
         providesTags: ["ApiKeys"],
       }),
       createApiKey: builder.mutation<GenericResponse, { name: string }>({
         query: (data) => ({
-          url: "/developer/api-keys",
+          url: "/api-keys",
           method: "POST",
           body: data,
         }),
@@ -36,7 +37,7 @@ export const apiKeyApi = baseApi
       }),
       deleteApiKey: builder.mutation<GenericResponse, { ids: string[] }>({
         query: (data) => ({
-          url: "/developer/api-keys/delete",
+          url: "/api-keys/delete",
           method: "POST",
           body: data,
         }),

@@ -8,6 +8,7 @@ interface ApiResponse<T> {
 }
 
 export const adminTemplateApi = baseApi.enhanceEndpoints({ addTagTypes: ["AdminTemplate"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getAdminTemplates: builder.query<ApiResponse<any[]>, { search?: string; sector?: string; template_category?: string } | void>({
       query: (params) => ({

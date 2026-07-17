@@ -2,6 +2,7 @@ import { AvailableCatalogue, Catalogue, Pagination, Product } from "@/src/types/
 import { baseApi } from "./baseApi";
 
 export const catalogueApi = baseApi.enhanceEndpoints({ addTagTypes: ["Catalogue", "Product"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getWABACatalogs: builder.query<{ success: boolean; data: { data: AvailableCatalogue[]; paging?: { cursors: { before: string; after: string } } } }, { waba_id: string }>({
       query: ({ waba_id }) => `/catalogue/waba/${waba_id}/catalogs`,

@@ -2,6 +2,7 @@ import { Team, TeamPermissionGroup } from "@/src/types/components";
 import { baseApi } from "./baseApi";
 
 export const teamApi = baseApi.enhanceEndpoints({ addTagTypes: ["Teams"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getTeams: builder.query<
       {

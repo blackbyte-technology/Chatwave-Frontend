@@ -2,6 +2,7 @@ import { baseApi } from "./baseApi";
 import { GetLandingPageResponse } from "../../types/landingPage";
 
 export const landingPageApi = baseApi.enhanceEndpoints({ addTagTypes: ["LandingPage"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getLandingPage: builder.query<GetLandingPageResponse, void>({
       query: () => "/landing-page",

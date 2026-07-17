@@ -2,6 +2,7 @@ import { baseApi } from "./baseApi";
 import { WabaConfigPayload, WabaConfigResponse } from "@/src/types/wabaConfiguration";
 
 export const wabaConfigurationApi = baseApi.enhanceEndpoints({ addTagTypes: ["WabaConfiguration"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getWabaConfiguration: builder.query<WabaConfigResponse, string>({
       query: (wabaId) => `/waba-configuration/${wabaId}`,

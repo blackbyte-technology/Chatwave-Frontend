@@ -1,6 +1,7 @@
 import { baseApi } from "./baseApi";
 
 export const mediaApi = baseApi.enhanceEndpoints({ addTagTypes: ["Media"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getAttachments: builder.query({
       query: (params) => {

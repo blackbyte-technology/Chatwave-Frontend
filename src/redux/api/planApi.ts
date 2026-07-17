@@ -7,6 +7,7 @@ import {
 import { Plan } from "@/src/types/subscription";
 
 export const planApi = baseApi.enhanceEndpoints({ addTagTypes: ["Plan"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getActivePlans: builder.query<PlansListResponse, void>({
       query: () => "/plan/active",

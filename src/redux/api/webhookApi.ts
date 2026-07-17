@@ -3,6 +3,7 @@ import { baseApi } from "./baseApi";
 import { Webhook, WebhookById, WebhookListResponse, WebhookResponse } from "../../types/webhook";
 
 export const webhookApi = baseApi.enhanceEndpoints({ addTagTypes: ["Webhook"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     listWebhooks: builder.query<WebhookListResponse, { search?: string; sort_by?: string; sort_order?: string; page?: number; limit?: number } | void>({
       query: (params) => {

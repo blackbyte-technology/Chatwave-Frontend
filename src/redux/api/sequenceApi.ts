@@ -3,6 +3,7 @@ import { SequenceDetailResponse, SequenceListResponse, SequenceResponse, Sequenc
 import { baseApi } from "./baseApi";
 
 export const sequenceApi = baseApi.enhanceEndpoints({ addTagTypes: ["Sequence", "SequenceStep"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getSequences: builder.query<SequenceListResponse, { waba_id: string }>({
       query: (params) => ({

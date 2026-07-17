@@ -22,6 +22,7 @@ export interface GetLanguagesParams {
 }
 
 export const languageApi = baseApi.enhanceEndpoints({ addTagTypes: ["Language"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getAllLanguages: builder.query<GetLanguagesResponse, GetLanguagesParams>({
       query: (params) => {

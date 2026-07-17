@@ -9,6 +9,7 @@ import {
 import { baseApi } from "./baseApi";
 
 export const paymentGatewayApi = baseApi.enhanceEndpoints({ addTagTypes: ["PaymentGateways"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     listGateways: builder.query<PaymentGatewaysResponse, PaymentGatewayQueryParams | void>({
       query: (params) => ({

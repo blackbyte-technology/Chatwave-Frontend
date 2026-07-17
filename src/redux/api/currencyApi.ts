@@ -2,6 +2,7 @@ import { GetCurrenciesParams, GetCurrenciesResponse } from "@/src/types/currency
 import { baseApi } from "./baseApi";
 
 export const currencyApi = baseApi.enhanceEndpoints({ addTagTypes: ["Currency"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getAllCurrencies: builder.query<GetCurrenciesResponse, GetCurrenciesParams>({
       query: (params) => {

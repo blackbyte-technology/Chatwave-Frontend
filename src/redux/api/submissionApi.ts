@@ -3,6 +3,7 @@ import { Submission, SubmissionDetailsResponse, SubmissionListResponse, Submissi
 import { baseApi } from "./baseApi";
 
 export const submissionApi = baseApi.enhanceEndpoints({ addTagTypes: ["Submission", "SubmissionStats"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getSubmissions: builder.query<SubmissionListResponse, { form_id: string; params?: any }>({
       query: ({ form_id, params }) => ({

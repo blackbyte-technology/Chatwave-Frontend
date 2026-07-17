@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppDispatch } from "@/src/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hooks";
 import { setCredentials, stopLoading, updateUser } from "@/src/redux/reducers/authSlice";
 import { User } from "@/src/types/auth";
 import { useSession } from "next-auth/react";
@@ -11,8 +11,10 @@ const SessionSyncProvider = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession();
   const dispatch = useAppDispatch();
 
+  const { token } = useAppSelector((state) => state.auth);
+
   const { data: profileData } = useGetProfileQuery(undefined, {
-    skip: status !== "authenticated",
+    skip: status !== "authenticated" || !token,
   });
 
   useEffect(() => {

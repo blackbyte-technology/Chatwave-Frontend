@@ -2,6 +2,7 @@ import { baseApi } from "./baseApi";
 import { WorkingHoursPayload, WorkingHoursResponse } from "@/src/types/workingHours";
 
 export const workingHoursApi = baseApi.enhanceEndpoints({ addTagTypes: ["WorkingHours"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getWorkingHours: builder.query<WorkingHoursResponse, string>({
       query: (wabaId) => `/working-hours/${wabaId}`,

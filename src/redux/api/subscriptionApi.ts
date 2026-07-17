@@ -3,6 +3,7 @@ import { baseApi } from "./baseApi";
 import { SubscriptionResponse, CreateSubscriptionResponse, CancelSubscriptionResponse } from "@/src/types/subscription";
 
 export const subscriptionApi = baseApi.enhanceEndpoints({ addTagTypes: ["Subscription"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getUserSubscription: builder.query<SubscriptionResponse, void>({
       query: () => "/subscription/my-subscription",

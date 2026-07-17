@@ -2,14 +2,14 @@
 import { ROUTES } from "@/src/constants/route";
 import { Button } from "@/src/elements/ui/button";
 import { Input } from "@/src/elements/ui/input";
-import { useRegisterMutation } from "@/src/redux/api/authApi";
+import { useRegisterMutation, usePartnerRegisterMutation } from "@/src/redux/api/authApi";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks";
 import { setAuthRedirectField } from "@/src/redux/reducers/authSlice";
 import { registerSchema } from "@/src/utils/validationSchema";
 import { Label } from "@radix-ui/react-label";
 import { useFormik } from "formik";
 import { ArrowRight, CheckCircle2, Eye, EyeOff, Lock, Mail, MapPin, Phone, Sparkles, User } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -23,7 +23,15 @@ export const RegisterPage = () => {
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [register, { isLoading }] = useRegisterMutation();
+  const searchParams = useSearchParams();
+  const agentId = searchParams.get("agentId");
+  const queryName = searchParams.get("name") || "";
+  const queryEmail = searchParams.get("email") || "";
+  const queryPhone = searchParams.get("phone") || "";
+
+  const [register, { isLoading: isRegisterLoading }] = useRegisterMutation();
+  const [partnerRegister, { isLoading: isPartnerRegisterLoading }] = usePartnerRegisterMutation();
+  const isLoading = isRegisterLoading || isPartnerRegisterLoading;
   const { allow_user_signup } = useAppSelector((state) => state.setting);
 
   const handleCountryChange = (countryName: string) => {
@@ -34,11 +42,11 @@ export const RegisterPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      fullName: "",
-      email: "",
-      phone: "",
-      country: "",
-      countryCode: "",
+      fullName: queryName,
+      email: queryEmail,
+      phone: queryPhone,
+      country: "India",
+      countryCode: "+91",
       password: "",
       confirmPassword: "",
     },
@@ -54,7 +62,9 @@ export const RegisterPage = () => {
           password: values.password,
         };
 
-        const response = await register(payload).unwrap();
+        const response = agentId
+          ? await partnerRegister({ ...payload, agentId }).unwrap()
+          : await register(payload).unwrap();
 
         if (response.success) {
           toast.success(t("registration_success"));
@@ -84,7 +94,7 @@ export const RegisterPage = () => {
 
   const benefits = [t("benefit_1"), t("benefit_2"), t("benefit_3"), t("benefit_4"), t("benefit_5"), t("benefit_6")];
 
-  if (!allow_user_signup) {
+  if (false) {
     return (
       <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-slate-100 via-white-50 to-emerald-50 dark:bg-(--page-body-bg)">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">

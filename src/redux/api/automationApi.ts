@@ -1,6 +1,7 @@
 import { baseApi } from "./baseApi";
 
 export const automationApi = baseApi.enhanceEndpoints({ addTagTypes: ["AutomationFlow"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getAutomationFlows: builder.query({
       query: (params) => {

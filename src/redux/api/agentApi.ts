@@ -1,6 +1,7 @@
 import { baseApi } from "./baseApi";
 
 export const agentApi = baseApi.enhanceEndpoints({ addTagTypes: ["Agent"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getAgentData: builder.query({
       query: (params) => ({

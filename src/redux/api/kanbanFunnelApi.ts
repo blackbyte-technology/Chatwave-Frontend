@@ -2,6 +2,7 @@
 import { baseApi } from "./baseApi";
 
 export const kanbanFunnelApi = baseApi.enhanceEndpoints({ addTagTypes: ["KanbanFunnel"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getFunnels: builder.query({
       query: (params) => {

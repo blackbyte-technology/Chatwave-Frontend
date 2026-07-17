@@ -2,6 +2,7 @@ import { WidgetListResponse, WidgetResponse } from "@/src/types/widget";
 import { baseApi } from "./baseApi";
 
 export const widgetApi = baseApi.enhanceEndpoints({ addTagTypes: ["Widgets"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getAllWidgets: builder.query<WidgetListResponse, { page?: number; limit?: number; search?: string; sort_by?: string; sort_order?: string }>({
       query: (params) => ({

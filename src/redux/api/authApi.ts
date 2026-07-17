@@ -2,10 +2,18 @@ import { ChangePasswordPayload, ForgotPasswordRequest, GenericResponse, Register
 import { baseApi } from "./baseApi";
 
 export const authApi = baseApi.enhanceEndpoints({ addTagTypes: ["User"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     register: builder.mutation<RegisterResponse, RegisterPayload>({
       query: (data) => ({
         url: "/auth/register",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    partnerRegister: builder.mutation<RegisterResponse, any>({
+      query: (data) => ({
+        url: "/partner/register",
         method: "POST",
         body: data,
       }),
@@ -99,4 +107,4 @@ export const authApi = baseApi.enhanceEndpoints({ addTagTypes: ["User"] }).injec
   }),
 });
 
-export const { useRegisterMutation, useForgotPasswordMutation, useVerifyOtpMutation, useResetPasswordMutation, useResetPasswordViaTokenMutation, useResendOTPMutation, useUpdateProfileMutation, useChangePasswordMutation, useGetProfileQuery, useGetIsDemoModeQuery, useGetRolesQuery, useGetMyPermissionsQuery } = authApi;
+export const { useRegisterMutation, usePartnerRegisterMutation, useForgotPasswordMutation, useVerifyOtpMutation, useResetPasswordMutation, useResetPasswordViaTokenMutation, useResendOTPMutation, useUpdateProfileMutation, useChangePasswordMutation, useGetProfileQuery, useGetIsDemoModeQuery, useGetRolesQuery, useGetMyPermissionsQuery } = authApi;

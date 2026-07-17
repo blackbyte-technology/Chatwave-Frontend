@@ -2,6 +2,7 @@
 import { baseApi } from "./baseApi";
 
 export const whatsappCallingApi = baseApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getCallAgents: builder.query<any, any>({
       query: (params) => ({

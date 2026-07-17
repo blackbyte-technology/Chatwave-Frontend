@@ -3,6 +3,7 @@ import { baseApi } from "./baseApi";
 import { GetAgentTasksParams, GetAgentTasksResponse, CreateAgentTaskRequest, UpdateAgentTaskStatusRequest, AddCommentRequest, AgentTask } from "@/src/types/agentTask";
 
 export const agentTaskApi = baseApi.enhanceEndpoints({ addTagTypes: ["AgentTask"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getAgentTasks: builder.query<GetAgentTasksResponse, GetAgentTasksParams>({
       query: (params) => ({

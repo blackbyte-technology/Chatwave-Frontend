@@ -2,6 +2,7 @@ import { baseApi } from "./baseApi";
 import { KeywordActionsResponse, KeywordActionResponse, KeywordActionCreatePayload, KeywordActionUpdatePayload, BulkDeleteKeywordActionsResponse } from "@/src/types/keywordAction";
 
 export const keywordActionApi = baseApi.enhanceEndpoints({ addTagTypes: ["KeywordAction"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getKeywordActions: builder.query<KeywordActionsResponse, { waba_id: string; page?: number; limit?: number; search?: string; sort_by?: string; sort_order?: string }>({
       query: (params) => {

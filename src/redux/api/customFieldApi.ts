@@ -1,6 +1,7 @@
 import { baseApi } from "./baseApi";
 
 export const customFieldApi = baseApi.enhanceEndpoints({ addTagTypes: ["CustomFields", "FieldTypes"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getCustomFields: builder.query({
       query: (params) => {

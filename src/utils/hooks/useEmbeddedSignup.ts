@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAppSelector } from "@/src/redux/hooks";
 import { useFacebookReady } from "@/src/app/FacebookSDKProvider";
+import { toast } from "sonner";
 
 export const useEmbeddedSignup = (onFinish: (code: string, data: any) => void) => {
   const [authCode, setAuthCode] = useState<string | null>(null);
@@ -43,11 +44,10 @@ export const useEmbeddedSignup = (onFinish: (code: string, data: any) => void) =
   }, [authCode, signupData, onFinish]);
 
   const startSignup = useCallback(() => {
-    // Facebook requires HTTPS — block entirely on HTTP to prevent console errors
     if (typeof window !== "undefined" && window.location.protocol !== "https:") {
-      console.warn(
-        "[Facebook SDK] FB.login() requires HTTPS. Use HTTPS in production or 'npx next dev --experimental-https' for local dev."
-      );
+      const msg = "Facebook SDK requires HTTPS. Use 'npx next dev --experimental-https' for local testing.";
+      console.warn(`[Facebook SDK] ${msg}`);
+      toast.error(msg, { duration: 5000 });
       return;
     }
 

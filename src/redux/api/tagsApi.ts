@@ -1,6 +1,7 @@
 import { baseApi } from "./baseApi";
 
 export const tagsApi = baseApi.enhanceEndpoints({ addTagTypes: ["Tags"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getTags: builder.query({
       query: (params) => {

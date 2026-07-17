@@ -23,25 +23,25 @@ interface WorkspaceResponse {
 }
 
 export const workspaceApi = baseApi.enhanceEndpoints({ addTagTypes: ["Workspace"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getWorkspaces: builder.query<GetWorkspacesResponse, void>({
-      query: () => `/workspace`,
+      query: () => `/workspaces`,
       providesTags: [{ type: "Workspace", id: "LIST" }],
     }),
     createWorkspace: builder.mutation<WorkspaceResponse, CreateWorkspacePayload>({
-      query: (body) => ({ url: `/workspace`, method: "POST", body }),
+      query: (body) => ({ url: `/workspaces`, method: "POST", body }),
       invalidatesTags: [{ type: "Workspace", id: "LIST" }],
     }),
     updateWorkspace: builder.mutation<WorkspaceResponse, UpdateWorkspacePayload>({
-      query: ({ id, ...body }) => ({ url: `/workspace/${id}`, method: "PATCH", body }),
+      query: ({ id, ...body }) => ({ url: `/workspaces/${id}`, method: "PATCH", body }),
       invalidatesTags: [{ type: "Workspace", id: "LIST" }],
     }),
     deleteWorkspace: builder.mutation<{ success: boolean; message: string }, string>({
-      query: (id) => ({ url: `/workspace/${id}`, method: "DELETE" }),
+      query: (id) => ({ url: `/workspaces/${id}`, method: "DELETE" }),
       invalidatesTags: [{ type: "Workspace", id: "LIST" }],
     }),
   }),
-  overrideExisting: false,
 });
 
 export const { useGetWorkspacesQuery, useLazyGetWorkspacesQuery, useCreateWorkspaceMutation, useUpdateWorkspaceMutation, useDeleteWorkspaceMutation } = workspaceApi;

@@ -1,6 +1,7 @@
 import { baseApi } from "./baseApi";
 
 export const segmentApi = baseApi.enhanceEndpoints({ addTagTypes: ["Segment"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getSegments: builder.query({
       query: (params) => {

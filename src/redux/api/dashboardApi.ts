@@ -23,6 +23,7 @@ export type {
 };
 
 export const dashboardApi = baseApi.enhanceEndpoints({ addTagTypes: ["Dashboard"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getDashboard: builder.query<{ success: boolean; data: DashboardData }, { dateRange?: string; startDate?: string; endDate?: string } | void>({
       query: (params) => ({

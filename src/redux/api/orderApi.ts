@@ -5,6 +5,7 @@ import type { OrderItem, Order, OrdersResponse } from "@/src/types/order";
 export type { OrderItem, Order, OrdersResponse };
 
 export const orderApi = baseApi.enhanceEndpoints({ addTagTypes: ["Order"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getOrders: builder.query<OrdersResponse, { page?: number; limit?: number; search?: string; sort_by?: string; sort_order?: string }>({
       query: (params) => ({

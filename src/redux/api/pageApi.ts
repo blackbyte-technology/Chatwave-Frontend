@@ -2,6 +2,7 @@ import { baseApi } from "./baseApi";
 import { Page, GetPagesResponse } from "../../types/pages";
 
 export const pageApi = baseApi.enhanceEndpoints({ addTagTypes: ["Page"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getPublicPages: builder.query<GetPagesResponse, void>({
       query: () => "/pages?status=true",

@@ -5,6 +5,7 @@ import type { StatusTemplate, StatusTemplatesResponse } from "@/src/types/order"
 export type { StatusTemplate, StatusTemplatesResponse };
 
 export const orderTemplateApi = baseApi.enhanceEndpoints({ addTagTypes: ["StatusTemplate"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getStatusTemplates: builder.query<StatusTemplatesResponse, void>({
       query: () => "/orders/status-templates",

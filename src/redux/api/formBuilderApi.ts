@@ -3,6 +3,7 @@ import { Form } from "@/src/types/formBuilder";
 import { baseApi } from "./baseApi";
 
 export const formBuilderApi = baseApi.enhanceEndpoints({ addTagTypes: ["Form", "MetaFlow"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getForms: builder.query<{ success: boolean; data: Form[]; pagination: any }, any>({
       query: (params) => ({

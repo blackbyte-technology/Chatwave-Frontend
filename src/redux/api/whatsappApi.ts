@@ -3,6 +3,7 @@ import { ConnectionsResponse } from "@/src/types/whatsapp";
 import { baseApi } from "./baseApi";
 
 export const whatsappApi = baseApi.enhanceEndpoints({ addTagTypes: ["Whatsapp", "WhatsappStatus", "WhatsappConnections", "Workspace"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     connection: builder.mutation<RegisterResponse, ConnectionPayload>({
       query: (data) => ({

@@ -4,6 +4,7 @@ import { baseApi } from "./baseApi";
 import { createOptimisticMessage, getTodayDateInfo } from "./utils/optimisticMessageUtils";
 
 export const chatApi = baseApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getRecentChats: builder.query<RecentChatData, { search?: string; whatsapp_phone_number_id?: string; start_date?: string; end_date?: string; tags?: string; has_notes?: boolean; last_message_read?: boolean; is_assigned?: boolean; agent_id?: string }>({
       query: (params) => ({

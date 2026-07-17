@@ -9,6 +9,7 @@ interface ApiResponse<T> {
 }
 
 export const templateApi = baseApi.enhanceEndpoints({ addTagTypes: ["Template"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getTemplates: builder.query<ApiResponse<Template[]>, { waba_id: string; [key: string]: any }>({
       query: (params) => ({

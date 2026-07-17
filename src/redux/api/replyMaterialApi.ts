@@ -2,6 +2,7 @@ import { baseApi } from "./baseApi";
 import { ReplyMaterialsResponse, ReplyMaterialQueryParams, ReplyMaterialResponse, BulkDeleteResponse } from "@/src/types/replyMaterial";
 
 export const replyMaterialApi = baseApi.enhanceEndpoints({ addTagTypes: ["ReplyMaterial"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getReplyMaterials: builder.query<ReplyMaterialsResponse, ReplyMaterialQueryParams>({
       query: (params) => {

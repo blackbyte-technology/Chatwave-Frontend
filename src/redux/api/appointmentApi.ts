@@ -2,6 +2,7 @@ import { baseApi } from "./baseApi";
 import { AppointmentConfig, AppointmentConfigResponse, AppointmentConfigsResponse, AppointmentQueryParams, AppointmentBookingsResponse, AppointmentBookingResponse } from "../../types/appointment";
 
 export const appointmentApi = baseApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     listAppointmentConfigs: builder.query<AppointmentConfigsResponse, AppointmentQueryParams>({
       query: (params) => ({

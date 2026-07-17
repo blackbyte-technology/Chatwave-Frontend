@@ -2,29 +2,30 @@ import { AIModelsResponse, AISettings, AISettingsResponse } from "@/src/types/se
 import { baseApi } from "./baseApi";
 
 export const settingsApi = baseApi.enhanceEndpoints({ addTagTypes: ["Settings"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getSettings: builder.query({
       query: (params) => ({
-        url: "/setting",
+        url: "/settings",
         params,
       }),
     }),
     getUserSettings: builder.query<AISettingsResponse, void>({
       query: () => ({
-        url: "/setup",
+        url: "/user-settings",
         method: "GET",
       }),
       providesTags: ["Settings"],
     }),
     getAllModels: builder.query<AIModelsResponse, void>({
       query: () => ({
-        url: "/setup/models",
+        url: "/ai/models",
         method: "GET",
       }),
     }),
     updateUserSettings: builder.mutation<void, AISettings | FormData>({
       query: (body) => ({
-        url: "/setup",
+        url: "/user-settings",
         method: "PUT",
         body,
       }),

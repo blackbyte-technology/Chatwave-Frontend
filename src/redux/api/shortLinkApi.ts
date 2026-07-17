@@ -2,6 +2,7 @@ import { ShortLinkResponse, ShortLinksListResponse } from "@/src/types/shortLink
 import { baseApi } from "./baseApi";
 
 export const shortLinkApi = baseApi.enhanceEndpoints({ addTagTypes: ["ShortLinks"] }).injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getShortLinks: builder.query<ShortLinksListResponse, { page?: number; limit?: number; search?: string; sort_by?: string; sort_order?: string } | void>({
       query: (params) => {

@@ -19,6 +19,7 @@ interface StopImpersonationResponse {
 }
 
 const impersonationApi = baseApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getImpersonationStatus: builder.query<ImpersonationStatusResponse, void>({
       query: () => "/impersonation/status",
