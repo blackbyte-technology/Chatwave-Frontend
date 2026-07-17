@@ -152,9 +152,9 @@ const Header = ({ isColor = false }: { isColor?: boolean }) => {
             src={logo_light_url || Logo2}
             alt={`${app_name || "chatwave"} logo`}
             width={160}
-            height={50}
+            height={80}
             unoptimized
-            className="h-10 object-contain"
+            className="h-16 object-contain"
           />
         </Link>
 

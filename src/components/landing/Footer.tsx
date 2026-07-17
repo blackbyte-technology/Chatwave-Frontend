@@ -59,7 +59,7 @@ const Footer: React.FC<FooterProps> = ({ data }) => {
       <div className="flex flex-col md:flex-row justify-between items-center gap-[calc(16px+(32-16)*((100vw-320px)/(1920-320)))] pb-8 border-b border-white/10">
         <div className="flex flex-col gap-6 items-start w-full min-[500px]:w-1/2 min-[900px]:w-auto min-[900px]:max-w-[320px]">
           <Link href="/" className="inline-block transition-transform hover:scale-[1.02]">
-            <Images src={logo_light_url || Logo2} alt={`${app_name || "chatwave"} logo`} className="h-10 object-contain" width={160} height={50} />
+            <Images src={logo_light_url || Logo2} alt={`${app_name || "chatwave"} logo`} className="h-16 object-contain" width={160} height={80} />
           </Link>
         </div>
 
