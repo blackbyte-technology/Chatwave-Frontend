@@ -10,7 +10,7 @@ env:
   NEXT_PUBLIC_API_BASE_URL: /api
   NEXT_PUBLIC_STORAGE_URL: https://api.chatwave.in/
   NEXT_PUBLIC_SOCKET_URL: https://api.chatwave.in/
-  NEXT_PUBLIC_WAPI_ADMIN_URL: https://admin.chatwave.in
+  NEXT_PUBLIC_CHATWAVE_ADMIN_URL: https://admin.chatwave.in
   NEXTAUTH_URL: https://app.chatwave.in
   AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
   NEXTAUTH_SECRET: ${{ secrets.AUTH_SECRET }}
