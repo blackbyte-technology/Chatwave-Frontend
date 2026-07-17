@@ -45,24 +45,7 @@ const Home: React.FC<HomeProps> = ({ data }) => {
         </div>
       </div>
 
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-hidden">
-        {data.floating_images?.map((img, index) => {
-          const positionStyles: Record<string, string> = {
-            "left-top": "top-[15%] left-[5%] [@media(max-width:1578px)]:left-[3%] [@media(max-width:1485px)]:hidden animate-up-down max-w-[250px] max-h-[405px]",
-            "right-top": "top-[22%] right-[5%] [@media(max-width:1578px)]:right-[2%] [@media(max-width:1485px)]:hidden animate-up-down max-w-[270px] max-h-[297px]",
-            "left-bottom": "top-[70%] left-[12%] [@media(max-width:1558px)]:left-[70px] [@media(max-width:1485px)]:hidden animate-up-down max-w-[298px] max-h-[286px] ",
-            "right-bottom": "top-[72%] right-[270px] [@media(max-width:1558px)]:right-[105px] [@media(max-width:1485px)]:hidden  animate-up-down max-w-[240px] max-h-[215px]",
-          };
-
-          return (
-            <div key={index} className={`absolute w-[320px] hidden lg:block slider-box ${positionStyles[img.position] || ""}`}>
-              <div className="p-1.5 bg-white bg-opacity-[0.03] rounded-[24px] border border-white border-opacity-10 shadow-2xl backdrop-blur-md">
-                <Images src={img.url} alt={`Floating Image ${index + 1}`} width={400} height={250} className={`rounded-[18px] shadow-lg ${index === 3 ? "max-h-53.75" : ""}`} unoptimized />
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {/* Floating images removed as requested */}
     </section>
   );
 };
