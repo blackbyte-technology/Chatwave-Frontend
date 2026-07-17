@@ -19,7 +19,7 @@ export const DynamicLogo = ({ width = 200, height = 56, className = "h-14 w-auto
     return <Skeleton className={skeletonClassName} />;
   }
 
-  const logoUrl = resolveUrl(demoModeRes?.logo_dark_url);
+  const logoUrl = resolveUrl(demoModeRes?.logo_dark_url || "/assets/logos/logo2.png");
 
   return <Image src={logoUrl} alt="App Logo" width={width} height={height} className={className} unoptimized priority />;
 };
