@@ -47,7 +47,7 @@ export const useFacebookLogin = (onFinish?: (data: any) => void) => {
         }
       },
       {
-        scope: "email,public_profile,business_management,catalog_management,instagram_basic,ads_management,ads_read,leads_retrieval,pages_manage_ads,pages_manage_metadata,pages_read_engagement,pages_show_list,pages_manage_engagement,whatsapp_business_management,whatsapp_business_messaging",
+        scope: "email,public_profile,business_management,catalog_management,ads_management,ads_read,leads_retrieval,pages_manage_ads,pages_manage_metadata,pages_read_engagement,pages_show_list,whatsapp_business_management,whatsapp_business_messaging",
         return_scopes: true,
       }
     );
