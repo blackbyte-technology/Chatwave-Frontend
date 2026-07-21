@@ -4,19 +4,17 @@
 import { Badge } from "@/src/elements/ui/badge";
 import { Button } from "@/src/elements/ui/button";
 import { Card, CardContent } from "@/src/elements/ui/card";
-import { useConnectionMutation } from "@/src/redux/api/whatsappApi";
 import { useGetWorkspacesQuery } from "@/src/redux/api/workspaceApi";
-import { useAppDispatch, useAppSelector } from "@/src/redux/hooks";
-import { setWorkspace } from "@/src/redux/reducers/workspaceSlice";
-import { useEmbeddedSignup } from "@/src/utils/hooks/useEmbeddedSignup";
+import { useAppSelector } from "@/src/redux/hooks";
 import { ExternalLink, Link2, MessageCircle, Plug } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ManualConnectionKeys from "./ManualConnectionKeys";
 import QRCodeConnection from "./QRCodeConnection";
 import WabaSetupGuide from "./WabaSetupGuide";
 import WebhookConfiguration from "./WebhookConfiguration";
+import ConnectWabaModal from "@/src/components/dashboard/ConnectWabaModal";
 import { cn } from "@/src/lib/utils";
 import { ROUTES } from "@/src/constants";
 
@@ -26,11 +24,9 @@ const ConnectWABA = () => {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [connection] = useConnectionMutation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { selectedWorkspace } = useAppSelector((state: any) => state.workspace);
-  const { data: workspacesData, refetch: refetchWorkspaces } = useGetWorkspacesQuery();
-  const dispatch = useAppDispatch();
+  const { data: workspacesData } = useGetWorkspacesQuery();
 
   const latestWorkspace = workspacesData?.data?.find((ws: any) => ws._id === selectedWorkspace?._id);
   const isBaileys = (latestWorkspace?.waba_type || selectedWorkspace?.waba_type) === "baileys";
@@ -45,35 +41,6 @@ const ConnectWABA = () => {
       setActiveTab(tabParam as "manual" | "qrcode");
     }
   }, [tabParam]);
-
-  const handleFinish = useCallback(
-    async (code: string, signupData: any) => {
-      try {
-        setIsLoading(true);
-
-        const response: any = await connection({
-          code,
-          signupData,
-          workspace_id: selectedWorkspace?._id,
-        }).unwrap();
-
-        if (response.success) {
-          const { data: updatedWorkspaces } = await refetchWorkspaces();
-          if (updatedWorkspaces?.data) {
-            const currentWs = updatedWorkspaces.data.find((ws: any) => ws._id === selectedWorkspace?._id);
-            if (currentWs) {
-              dispatch(setWorkspace(currentWs));
-            }
-          }
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [connection, selectedWorkspace, refetchWorkspaces, dispatch]
-  );
-
-  const { startSignup, fbReady } = useEmbeddedSignup(handleFinish);
 
   return (
     <div className="p-4 sm:p-8 max-w-350! mx-auto space-y-6 sm:space-y-10 animate-in fade-in duration-500">
@@ -119,9 +86,9 @@ const ConnectWABA = () => {
                     <ExternalLink className="mr-2" size={16} />
                     {t("manage")}
                   </Button>
-                  <Button className="w-full h-11 font-semibold shadow-lg dark:text-amber-50 shadow-primary/20" onClick={startSignup} disabled={!fbReady || !!isConnected || isLoading}>
+                  <Button className="w-full h-11 font-semibold shadow-lg dark:text-amber-50 shadow-primary/20" onClick={() => setIsModalOpen(true)} disabled={!!isConnected}>
                     <Link2 className="mr-2" size={16} />
-                    {isLoading ? t("connecting") : isConnected ? t("connected") : t("connect")}
+                    {isConnected ? t("connected") : t("connect")}
                   </Button>
                 </div>
               </CardContent>
@@ -149,6 +116,7 @@ const ConnectWABA = () => {
           <WabaSetupGuide isConnected={!!isConnected} />
         </div>
       </div>
+      <ConnectWabaModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };
