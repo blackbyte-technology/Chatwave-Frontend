@@ -92,10 +92,16 @@ const FlowCanvas = () => {
         return node.data.message && node.data.message.trim();
       }
       if (node.data.nodeType === "button_message") {
-        return node.data.message?.trim() && node.data.buttons?.length > 0 && node.data.buttons.every((b: any) => b.text);
+        // Accept button_params (backend format) or buttons (UI format)
+        const hasButtons = (node.data.buttons?.length > 0 && node.data.buttons.every((b: any) => b.text)) ||
+                          (node.data.button_params?.length > 0 && node.data.button_params.every((b: any) => b.title));
+        return node.data.message?.trim() && hasButtons;
       }
       if (node.data.nodeType === "list_message") {
-        return node.data.bodyText?.trim() && node.data.buttonText?.trim() && node.data.sections?.length > 0;
+        // Accept list_params (backend format) or bodyText/sections (UI format)
+        const hasListContent = (node.data.bodyText?.trim() && node.data.buttonText?.trim() && node.data.sections?.length > 0) ||
+                               (node.data.list_params?.body?.trim() && node.data.list_params?.items?.length > 0);
+        return hasListContent;
       }
       if (node.data.nodeType === "media_message") {
         return node.data.mediaUrl?.trim();
@@ -110,7 +116,7 @@ const FlowCanvas = () => {
         return node.data.url?.trim();
       }
       if (node.data.nodeType === "send_template") {
-        return node.data.template_id;
+        return node.data.template_id || node.data.template_name;
       }
       if (node.data.nodeType === "cta_button") {
         return node.data.text?.trim() && node.data.button_text?.trim() && node.data.url?.trim();
