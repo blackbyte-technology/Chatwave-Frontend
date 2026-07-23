@@ -30,7 +30,7 @@ export function BaseNode({ id, title, icon, iconBgColor = "bg-gray-100", iconCol
   }, [confirmDelete, deleteElements, id]);
 
   return (
-    <div className={cn("group relative w-72 rounded-lg border bg-white shadow-md transition-all hover:shadow-xl dark:bg-(--card-color) dark:border-(--card-border-color)", errors.length > 0 ? "border-red-400 ring-1 ring-red-400/20" : borderColor, className)}>
+    <div onMouseLeave={() => setConfirmDelete(false)} className={cn("group relative w-72 rounded-lg border bg-white shadow-md transition-all hover:shadow-xl dark:bg-(--card-color) dark:border-(--card-border-color)", errors.length > 0 ? "border-red-400 ring-1 ring-red-400/20" : borderColor, className)}>
       {/* Target Handle */}
       {showInHandle && <Handle type="target" id="tgt" position={Position.Left} className={cn("w-3! h-3! border-2! border-white! dark:border-(--card-border-color)! shadow-sm z-50", handleColor)} />}
 
