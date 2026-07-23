@@ -4,13 +4,14 @@
 import { Textarea } from "@/src/elements/ui/textarea";
 import { useReactFlow } from "@xyflow/react";
 import { MessageSquareText } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { BaseNode } from "./BaseNode";
 import { NodeField } from "./NodeField";
 
 export function TextMessageNode({ data, id }: any) {
   const { setNodes } = useReactFlow();
   const [touched, setTouched] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const errors: string[] = [];
   if (touched || data.forceValidation) {
@@ -28,6 +29,18 @@ export function TextMessageNode({ data, id }: any) {
     );
   };
 
+  // Auto-resize textarea to fit content
+  const autoResize = useCallback(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.max(el.scrollHeight, 160)}px`;
+  }, []);
+
+  useEffect(() => {
+    autoResize();
+  }, [data.message, autoResize]);
+
   return (
     <BaseNode
       id={id}
@@ -41,11 +54,12 @@ export function TextMessageNode({ data, id }: any) {
     >
       <NodeField label="Response Body" required error={(touched || data.forceValidation) && !data.message?.trim() ? "Response text is required." : ""}>
         <Textarea
+          ref={textareaRef}
           placeholder="Compose your automated response..."
           value={data.message || ""}
           onFocus={() => setTouched(true)}
           onChange={(e) => updateNodeData("message", e.target.value)}
-          className="min-h-25 resize-none text-sm bg-gray-50 border-gray-200 focus:bg-white dark:bg-(--page-body-bg) dark:border-(--card-border-color) dark:focus:bg-(--page-body-bg)"
+          className="min-h-40 resize-none text-sm bg-gray-50 border-gray-200 focus:bg-white dark:bg-(--page-body-bg) dark:border-(--card-border-color) dark:focus:bg-(--page-body-bg)"
         />
       </NodeField>
     </BaseNode>
