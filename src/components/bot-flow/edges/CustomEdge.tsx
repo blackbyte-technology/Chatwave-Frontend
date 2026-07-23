@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/src/elements/ui/button";
 import { BaseEdge, EdgeLabelRenderer, getSmoothStepPath, useReactFlow, type EdgeProps } from "@xyflow/react";
-import { Trash2 } from "lucide-react";
+import { Trash2, X } from "lucide-react";
 
 export const CustomEdge = ({
   id,
@@ -16,12 +16,11 @@ export const CustomEdge = ({
   style = {},
   markerEnd,
 }: EdgeProps) => {
-  const { setEdges, screenToFlowPosition } = useReactFlow();
+  const { setEdges } = useReactFlow();
   const [isHovered, setIsHovered] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  // Use a timer to prevent flickering when moving between the path and the label
-  const [hoverTimer, setHoverTimer] = useState<NodeJS.Timeout | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const confirmTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [edgePath, labelX, labelY] = getSmoothStepPath({
     sourceX,
@@ -33,37 +32,34 @@ export const CustomEdge = ({
     borderRadius: 0,
   });
 
-  const handleMouseEnter = (e: React.MouseEvent) => {
-    if (hoverTimer) clearTimeout(hoverTimer);
-    const position = screenToFlowPosition({
-      x: e.clientX,
-      y: e.clientY,
-    });
-    setMousePos(position);
+  // Auto-cancel confirmation after 2 seconds
+  useEffect(() => {
+    if (confirmDelete) {
+      confirmTimerRef.current = setTimeout(() => setConfirmDelete(false), 2000);
+    }
+    return () => { if (confirmTimerRef.current) clearTimeout(confirmTimerRef.current); };
+  }, [confirmDelete]);
+
+  const handleMouseEnter = () => {
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    const timer = setTimeout(() => {
+    hoverTimerRef.current = setTimeout(() => {
       setIsHovered(false);
-    }, 100); // Increased grace period to 200ms
-    setHoverTimer(timer);
+      setConfirmDelete(false);
+    }, 200);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (hoverTimer) clearTimeout(hoverTimer);
-    const position = screenToFlowPosition({
-      x: e.clientX,
-      y: e.clientY,
-    });
-    setMousePos(position);
-    if (!isHovered) setIsHovered(true);
-  };
-
-  const onEdgeClick = (e: React.MouseEvent) => {
+  const handleDeleteClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    setEdges((edges) => edges.filter((edge) => edge.id !== id));
-  };
+    if (confirmDelete) {
+      setEdges((edges) => edges.filter((edge) => edge.id !== id));
+    } else {
+      setConfirmDelete(true);
+    }
+  }, [confirmDelete, setEdges, id]);
 
   return (
     <>
@@ -75,7 +71,6 @@ export const CustomEdge = ({
         strokeWidth={40}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onMouseMove={handleMouseMove}
         className="react-flow__edge-interaction nodrag nopan"
         style={{ cursor: 'pointer', pointerEvents: 'all' }}
       />
@@ -97,7 +92,7 @@ export const CustomEdge = ({
         <div
           style={{
             position: 'absolute',
-            transform: `translate(-50%, -50%) translate(${mousePos.x}px,${mousePos.y}px)`,
+            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             fontSize: 12,
             pointerEvents: 'none',
             opacity: isHovered ? 1 : 0,
@@ -108,17 +103,28 @@ export const CustomEdge = ({
           className="nodrag nopan"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          onMouseMove={handleMouseMove}
         >
-          <Button
-            style={{ pointerEvents: 'auto' }}
-            className="flex h-8 w-auto px-3 items-center justify-center gap-2 rounded-full border border-violet-100 bg-white shadow-lg transition-all hover:bg-red-50 hover:text-red-600 text-gray-400 dark:bg-dark-gray dark:border-dark-accent dark:hover:bg-red-900/20 active:scale-95 group"
-            onClick={onEdgeClick}
-            title="Remove connection"
-          >
-            <Trash2 size={12} className="group-hover:scale-110 transition-transform" />
-            <span className="text-[10px] font-bold uppercase tracking-tight">Delete</span>
-          </Button>
+          {confirmDelete ? (
+            <Button
+              style={{ pointerEvents: 'auto' }}
+              className="flex h-8 w-auto px-3 items-center justify-center gap-2 rounded-full bg-red-500 text-white shadow-lg hover:bg-red-600 active:scale-95 animate-in fade-in zoom-in duration-150"
+              onClick={handleDeleteClick}
+              title="Click again to confirm"
+            >
+              <Trash2 size={12} />
+              <span className="text-[10px] font-bold uppercase tracking-tight">Confirm?</span>
+            </Button>
+          ) : (
+            <Button
+              style={{ pointerEvents: 'auto' }}
+              className="flex h-8 w-auto px-3 items-center justify-center gap-2 rounded-full border border-violet-100 bg-white shadow-lg transition-all hover:bg-red-50 hover:text-red-600 text-gray-400 dark:bg-dark-gray dark:border-dark-accent dark:hover:bg-red-900/20 active:scale-95 group"
+              onClick={handleDeleteClick}
+              title="Remove connection"
+            >
+              <X size={12} className="group-hover:scale-110 transition-transform" />
+              <span className="text-[10px] font-bold uppercase tracking-tight">Delete</span>
+            </Button>
+          )}
         </div>
       </EdgeLabelRenderer>
     </>
