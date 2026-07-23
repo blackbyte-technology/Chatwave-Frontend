@@ -186,8 +186,16 @@ const FlowCanvas = () => {
               _backendId: n.id,
               nodeType: params.nodeType || (n.type === "send_message" ? "text_message" : n.type === "trigger" ? "trigger" : n.type),
               message: params.message || params.message_template || "",
+              // CTA button fields
+              ...(n.type === "cta_button"
+                ? {
+                  text: params.text || params.message_template || "",
+                  button_text: params.button_text || "",
+                  url: params.url || "",
+                }
+                : {}),
               keywords: keywords || [],
-              triggerType: params.triggerType || "contains keyword",
+              triggerType: params.triggerType || (n.type === "trigger" && (!keywords || keywords.length === 0) ? "any message" : "contains keyword"),
               contactType: params.contactType || "Contact",
               // Restore location params if present
               ...(params.location_params
