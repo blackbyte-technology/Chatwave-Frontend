@@ -66,7 +66,7 @@ export function CtaButtonNode({ data, id }: any) {
             value={data.text || ""}
             onFocus={() => setTouched(true)}
             onChange={(e) => updateNodeData("text", e.target.value)}
-            className="min-h-20 resize-none text-sm bg-gray-50 border-gray-200 focus:bg-gray-50 dark:focus:bg-(--page-body-bg) dark:bg-(--page-body-bg) dark:border-(--card-border-color)"
+            className="min-h-32 resize-none text-sm bg-gray-50 border-gray-200 focus:bg-gray-50 dark:focus:bg-(--page-body-bg) dark:bg-(--page-body-bg) dark:border-(--card-border-color)"
           />
         </NodeField>
 

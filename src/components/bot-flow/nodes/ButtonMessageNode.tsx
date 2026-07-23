@@ -75,7 +75,7 @@ export function ButtonMessageNode({ data, id }: any) {
   return (
     <BaseNode id={id} title="Quick Reply" icon={<CheckSquare size={18} />} iconBgColor="bg-emerald-600" iconColor="text-white" borderColor="border-emerald-200" handleColor="bg-emerald-500!" errors={errors} showOutHandle={false}>
       <NodeField label="Message Text" required error={(touched || data.forceValidation) && !data.message?.trim() ? "Message text is required" : ""}>
-        <Textarea placeholder="Enter the main message text..." value={data.message || ""} onFocus={() => setTouched(true)} onChange={(e) => updateNodeData("message", e.target.value)} className="min-h-20 resize-none text-sm bg-gray-50 border-gray-200 focus:bg-white dark:bg-(--page-body-bg) dark:border-(--card-border-color) dark:focus:bg-(--page-body-bg)" />
+        <Textarea placeholder="Enter the main message text..." value={data.message || ""} onFocus={() => setTouched(true)} onChange={(e) => updateNodeData("message", e.target.value)} className="min-h-32 resize-none text-sm bg-gray-50 border-gray-200 focus:bg-white dark:bg-(--page-body-bg) dark:border-(--card-border-color) dark:focus:bg-(--page-body-bg)" />
         <div className="mt-1 text-right text-[10px] text-gray-400">{data.message?.length || 0}/1024</div>
       </NodeField>
 
