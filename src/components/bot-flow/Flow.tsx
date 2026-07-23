@@ -182,6 +182,8 @@ const FlowCanvas = () => {
             position: n.position,
             data: {
               ...params,
+              _backendType: n.type,
+              _backendId: n.id,
               nodeType: params.nodeType || (n.type === "send_message" ? "text_message" : n.type === "trigger" ? "trigger" : n.type),
               message: params.message || params.message_template || "",
               keywords: keywords || [],
@@ -294,6 +296,8 @@ const FlowCanvas = () => {
 
       const getBackendId = (node: any) => {
         if (!node) return "";
+        // If the node was loaded from the backend, preserve its original ID
+        if (node.data?._backendId) return node.data._backendId;
         const nodeType = node.data?.nodeType || node.type;
         if (nodeType === "trigger") {
           return node.id.startsWith("trigger-") ? node.id : `trigger-${node.id}`;
@@ -310,6 +314,7 @@ const FlowCanvas = () => {
           assign_chatbot: "assign_chatbot-",
           save_to_google_sheet: "google_sheet-",
           create_calendar_event: "calendar_event-",
+          add_tag: "add_tag-",
         };
         const prefix = prefixMap[nodeType] || "send_message-";
         if (node.id.startsWith(prefix)) return node.id;
@@ -319,11 +324,14 @@ const FlowCanvas = () => {
 
       // Add all trigger nodes to the payload
       triggerNodes.forEach((tNode) => {
+        const triggerParams = { ...tNode.data };
+        delete triggerParams._backendType;
+        delete triggerParams._backendId;
         formattedNodes.push({
           id: getBackendId(tNode),
           type: "trigger",
           position: tNode.position,
-          parameters: { ...tNode.data },
+          parameters: triggerParams,
           name: "Incoming Message",
         });
       });
@@ -336,8 +344,11 @@ const FlowCanvas = () => {
 
       const getFormattedNode = (node: any) => {
         const nodeType = node.data.nodeType;
-        const type = nodeType === "delay" ? "delay" : nodeType === "wait_for_reply" ? "wait_for_reply" : (nodeType === "api" || nodeType === "api_request") ? "api" : nodeType === "response_saver" ? "response_saver" : nodeType === "condition" ? "condition" : ["send_template", "cta_button", "assign_chatbot", "save_to_google_sheet", "create_calendar_event", "add_tag"].includes(nodeType) ? nodeType : "send_message";
+        const type = node.data._backendType || (nodeType === "delay" ? "delay" : nodeType === "wait_for_reply" ? "wait_for_reply" : (nodeType === "api" || nodeType === "api_request") ? "api" : nodeType === "response_saver" ? "response_saver" : nodeType === "condition" ? "condition" : ["send_template", "cta_button", "assign_chatbot", "save_to_google_sheet", "create_calendar_event", "add_tag"].includes(nodeType) ? nodeType : "send_message");
         const parameters: any = { ...node.data };
+        // Remove internal tracking fields from saved parameters
+        delete parameters._backendType;
+        delete parameters._backendId;
 
         if (type === "send_message" || type === "send_template" || type === "cta_button") {
           parameters.recipient = "{{senderNumber}}";
